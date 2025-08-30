@@ -2,7 +2,7 @@
     <form class="form w-100" id="kt_sign_in_form" action="#" method="POST">
         <div class="text-center mb-11">
             <h1 class="text-gray-900 fw-bolder mb-3">Masuk</h1>
-            <div class="text-gray-500 fw-semibold fs-6">Hi, Selamat datang kembali!</div>
+            <div class="text-gray-500 fw-semibold fs-6">Silahkan masuk dengan akun Anda</div>
         </div>
 
         <div class="fv-row mb-8">
