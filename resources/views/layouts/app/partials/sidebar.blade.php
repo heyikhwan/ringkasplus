@@ -27,9 +27,9 @@
                     data-kt-menu="true" data-kt-menu-expand="false">
 
                     <div class="menu-item">
-                        <a class="menu-link" href="apps/calendar.html">
+                        <a class="menu-link active" href="apps/calendar.html">
                             <span class="menu-icon">
-                                <i class="ki-duotone ki-element-11 text-primary fs-2">
+                                <i class="ki-duotone ki-element-11 fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                     <span class="path3"></span>
