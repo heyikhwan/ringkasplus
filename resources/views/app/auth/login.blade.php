@@ -1,5 +1,7 @@
 <x-auth-layout title="Masuk">
-    <form class="form w-100" id="kt_sign_in_form" action="#" method="POST">
+    <form class="form w-100" id="kt_sign_in_form" action="{{ route('login') }}" method="POST">
+        @csrf
+
         <div class="text-center mb-11">
             <h1 class="text-gray-900 fw-bolder mb-3">Masuk</h1>
             <div class="text-gray-500 fw-semibold fs-6">Silahkan masuk dengan akun Anda</div>
@@ -15,7 +17,8 @@
         </div>
         <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
             <div></div>
-            <a href="authentication/layouts/creative/reset-password.html" class="link-primary">Lupa Password ?</a>
+            {{-- // TODO: Feat. lupa password --}}
+            <a href="#" class="link-primary">Lupa Password ?</a>
         </div>
         <div class="d-grid gap-3">
             <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
