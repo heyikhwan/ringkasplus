@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Service\AuthService;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -30,7 +30,7 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard.index');
+            return redirect()->route('dashboard');
         } catch (AppException $e) {
             return back()->with('error', $e->getMessage())->withInput();
         } catch (Throwable $e) {

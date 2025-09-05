@@ -3,8 +3,10 @@
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <a href="index.html">
-            <img alt="Logo" src="{{ asset('app/assets/media/logos/default-dark.svg') }}" class="h-25px app-sidebar-logo-default" />
-            <img alt="Logo" src="{{ asset('app/assets/media/logos/default-small.svg') }}" class="h-20px app-sidebar-logo-minimize" />
+            <img alt="Logo" src="{{ asset('app/assets/media/logos/default-dark.svg') }}"
+                class="h-25px app-sidebar-logo-default" />
+            <img alt="Logo" src="{{ asset('app/assets/media/logos/default-small.svg') }}"
+                class="h-20px app-sidebar-logo-minimize" />
         </a>
         <div id="kt_app_sidebar_toggle"
             class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
@@ -27,7 +29,7 @@
                     data-kt-menu="true" data-kt-menu-expand="false">
 
                     <div class="menu-item">
-                        <a class="menu-link active" href="apps/calendar.html">
+                        <a class="menu-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-element-11 fs-2">
                                     <span class="path1"></span>
@@ -37,6 +39,37 @@
                                 </i>
                             </span>
                             <span class="menu-title">Dashboard</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item pt-5">
+                        <div class="menu-content">
+                            <span class="menu-heading fw-bold text-uppercase fs-7">Manajemen Pengguna</span>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link {{ request()->is('user*') ? 'active' : '' }}"
+                            href="{{ route('user.index') }}">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-profile-user fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                    <span class="path4"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Pengguna</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-shield-tick fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Hak Akses</span>
                         </a>
                     </div>
 

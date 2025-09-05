@@ -16,7 +16,36 @@
                 <img alt="Logo" src="{{ asset('app/assets/media/logos/default-small.svg') }}" class="h-30px" />
             </a>
         </div>
-        <div class="d-flex align-items-stretch justify-content-end flex-lg-grow-1" id="kt_app_header_wrapper">
+        <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
+            <div data-kt-swapper="true" data-kt-swapper-mode="{default: 'prepend', lg: 'prepend'}"
+                data-kt-swapper-parent="{default: '#kt_app_content_container', lg: '#kt_app_header_wrapper'}"
+                class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mb-5 mb-lg-0">
+                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+                    {{ $title }}
+                </h1>
+
+                @if (!empty($breadcrumbs))
+                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                        @foreach ($breadcrumbs as $item)
+                            <li class="breadcrumb-item text-muted">
+                                @if (!empty($item['url']))
+                                    <a href="{{ $item['url'] }}" class="text-muted text-hover-primary">
+                                        {{ $item['title'] }}
+                                    </a>
+                                @else
+                                    {{ $item['title'] }}
+                                @endif
+                            </li>
+
+                            @if (!$loop->last)
+                                <li class="breadcrumb-item">
+                                    <span class="bullet bg-gray-500 w-5px h-2px"></span>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
             <div class="app-navbar flex-shrink-0">
                 <div class="app-navbar-item ms-1 ms-md-4">
                     <a href="#"

@@ -21,12 +21,14 @@
 </head>
 
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
-    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="false"
-    data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
-    data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" class="app-default">
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-            @include('layouts.app.partials.header')
+            @include('layouts.app.partials.header', [
+                'title' => $title ?? config('app.name'),
+                'breadcrumbs' => $breadcrumbs ?? [],
+            ])
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
                 @include('layouts.app.partials.sidebar')
 
@@ -35,6 +37,7 @@
                         <div id="kt_app_content" class="app-content flex-column-fluid">
                             <div id="kt_app_content_container" class="app-container container-fluid">
                                 {{ $slot }}
+                                <x-modal title="Modal" id="default-ikh-modal" />
                             </div>
                         </div>
                     </div>
@@ -43,7 +46,8 @@
                         <div
                             class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
                             <div class="text-gray-900 order-2 order-md-1">
-                                <span class="text-muted fw-semibold me-1">{{ date('Y') }}&copy;</span> Create with ❤️
+                                <span class="text-muted fw-semibold me-1">{{ date('Y') }}&copy;</span> Create with
+                                ❤️
                                 <a href="https://ikhwan.web.id" target="_blank"
                                     class="text-gray-800 text-hover-primary">Ikhwanul Akhmad. DLY</a>
                             </div>
@@ -62,6 +66,13 @@
     </div>
 
     @include('layouts.app.partials.global-scripts')
+    <script src="{{ asset('app/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
+    <script src="{{ asset('app/assets/js/custom.js') }}"></script>
+    <script>
+        const DATATABLE_ID = '{{ DATATABLE_ID }}';
+        let IKHMODAL;
+    </script>
     @stack('scripts')
 </body>
 
