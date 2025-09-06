@@ -76,6 +76,11 @@ class RoleService
         return $this->roleRepository->findById($id, $with);
     }
 
+    public function isDefaultRole($role)
+    {
+        return $this->roleRepository->isDefaultRole($role);
+    }
+
     public function create($request)
     {
         DB::beginTransaction();
@@ -87,7 +92,7 @@ class RoleService
             ]);
 
             // create role permissions
-            $permissions = array_keys($request['permissions']);
+            $permissions = !empty($request['permissions']) ? array_keys($request['permissions']) : [];
             if (!empty($permissions)) {
                 $role->permissions()->sync($permissions);
             }
@@ -114,14 +119,18 @@ class RoleService
 
         try {
             // update role
-            $role->update([
-                'name' => $request['name'],
-            ]);
+            if (isset($request['name'])) {
+                $role->update([
+                    'name' => $request['name'],
+                ]);
+            }
 
             // update role permissions
-            $permissions = array_keys($request['permissions']);
+            $permissions = !empty($request['permissions']) ? array_keys($request['permissions']) : [];
             if (!empty($permissions)) {
                 $role->permissions()->sync($permissions);
+            } else {
+                $role->permissions()->detach();
             }
 
             DB::commit();

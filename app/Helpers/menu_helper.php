@@ -41,7 +41,7 @@ if (!function_exists('menuUser')) {
                 'items' => [
                     [
                         'name' => 'Hak Akses Aplikasi',
-                        'url' => '#',
+                        'url' => 'permission-application.create',
                         'icon' => '<i class="ki-duotone ki-shield fs-2"><span class="path1"></span><span class="path2"></span></i>',
                         'role_only' => ['Super Admin']
                     ]

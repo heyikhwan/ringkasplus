@@ -3,12 +3,20 @@
         <div class="card-body">
             <div class="row g-5">
                 <div class="col-12">
-                    <div class="fv-row">
-                        <label for="name" class="required form-label">Nama Peran</label>
-                        <input type="text" id="name" name="name" class="form-control"
-                            value="{{ old('name', $result->name ?? '') }}" placeholder="Input Nama Peran" required
-                            autocomplete="off" />
-                    </div>
+                    @if (isset($isDefaultRole) && $isDefaultRole)
+                        <div class="fv-row">
+                            <label for="name" class="form-label">Nama Peran</label>
+                            <input type="text" id="name" class="form-control" value="{{ $result->name }}"
+                                disabled />
+                        </div>
+                    @else
+                        <div class="fv-row">
+                            <label for="name" class="required form-label">Nama Peran</label>
+                            <input type="text" id="name" name="name" class="form-control"
+                                value="{{ old('name', $result->name ?? '') }}" placeholder="Input Nama Peran" required
+                                autocomplete="off" />
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -16,8 +24,18 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex flex-column flex-md-row align-items-center align-items-md-center gap-5">
             <h3 class="card-title">Daftar Hak Akses</h3>
+
+            <div class="fv-row my-auto">
+                <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="1" id="check-all-global"
+                        @checked(false) />
+                    <label for="check-all-global" class="form-check-label">
+                        Aktifkan Semua
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="d-grid gap-8">
@@ -113,20 +131,50 @@
                 }
             }
 
-            $(document).on("change", ".form-check-input[data-role=all]", function(e) {
+            function updateGlobalCheckAll() {
+                let allGroups = $(".permission-card");
+                let allChecked = true;
+
+                allGroups.each(function() {
+                    let $children = $(this).find(".form-check-input[data-role=child]");
+                    if ($children.length && $children.filter(":checked").length !== $children.length) {
+                        allChecked = false;
+                        return false;
+                    }
+                });
+
+                $("#check-all-global").prop("checked", allChecked);
+            }
+
+            // check-all per group
+            $(document).on("change", ".form-check-input[data-role=all]", function() {
                 let $card = $(this).closest(".permission-card");
                 let isChecked = $(this).is(":checked");
                 $card.find(".form-check-input[data-role=child]").prop("checked", isChecked);
                 updateGroup($card);
+                updateGlobalCheckAll();
             });
 
+            // child checkbox
             $(document).on("change", ".form-check-input[data-role=child]", function() {
-                updateGroup($(this).closest(".permission-card"));
+                let $card = $(this).closest(".permission-card");
+                updateGroup($card);
+                updateGlobalCheckAll();
+            });
+
+            // global check-all
+            $(document).on("change", "#check-all-global", function() {
+                let isChecked = $(this).is(":checked");
+                $(".permission-card").each(function() {
+                    $(this).find(".form-check-input[data-role=child]").prop("checked", isChecked);
+                    updateGroup($(this));
+                });
             });
 
             $(".permission-card").each(function() {
                 updateGroup($(this));
             });
+            updateGlobalCheckAll();
         });
     </script>
 @endpush

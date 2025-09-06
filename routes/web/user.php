@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,4 +17,7 @@ Route::middleware(['auth'])->group(function () {
     // Role & Permission
     Route::get('role-permission/datatable', [RolePermissionController::class, 'datatable'])->name('role-permission.datatable');
     Route::resource('role-permission', RolePermissionController::class)->except('show');
+
+    // Permission Application
+    Route::resource('permission-application', PermissionApplicationController::class)->only(['create', 'store']);
 });

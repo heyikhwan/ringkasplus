@@ -2,10 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Services\RoleService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoleRequest extends FormRequest
 {
+    protected $roleService;
+
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,9 +28,13 @@ class RoleRequest extends FormRequest
      */
     public function rules(): array
     {
+        $roleId = decode($this->role_permission);
+        $role = $this->roleService->findById($roleId);
+        $isDefaultRole = $this->roleService->isDefaultRole($role->name);
+
         return [
-            'name' => 'required|string|min:3|max:50|unique:roles,name,' . decode($this->role_permission),
-            'permissions' => 'nullable|array',
+            'name' => $isDefaultRole ? 'prohibited' : 'required|string|min:3|max:50|unique:roles,name,' . decode($this->role_permission),
+            'permissions' => 'nullable',
         ];
     }
 

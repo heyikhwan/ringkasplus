@@ -18,4 +18,9 @@ class RoleRepository extends BaseRepositories
     {
         return Role::defaultRoles();
     }
+
+    public function isDefaultRole($role)
+    {
+        return in_array($role, Role::defaultRoles(), true);
+    }
 }

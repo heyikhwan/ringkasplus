@@ -6,10 +6,11 @@ use App\Exceptions\AppException;
 use App\Http\Requests\RoleRequest;
 use App\Services\PermissionService;
 use App\Services\RoleService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class RolePermissionController extends Controller
+class RolePermissionController extends Controller implements HasMiddleware
 {
-    // TODO: Feat. Hak Akses Aplikasi
     protected $title = 'Peran & Hak Akses Pengguna';
     protected $view = 'app.role-permission';
     protected $permission_name = 'role-permission';
@@ -22,6 +23,16 @@ class RolePermissionController extends Controller
         $this->permissionService = $permissionService;
 
         $this->setupConstruct();
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:role-permission.index', only: ['index']),
+            new Middleware('can:role-permission.create', only: ['create', 'store']),
+            new Middleware('can:role-permission.edit', only: ['edit', 'update']),
+            new Middleware('can:role-permission.destroy', only: ['destroy']),
+        ];
     }
 
     public function index()
@@ -68,9 +79,9 @@ class RolePermissionController extends Controller
 
             return redirect()->route("$this->permission_name.index")->with('success', BERHASIL_SIMPAN);
         } catch (AppException $e) {
-            return responseFail($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
         } catch (\Throwable $th) {
-            return responseFail(GAGAL_SIMPAN);
+            return redirect()->back()->with('error', GAGAL_SIMPAN)->withInput();
         }
     }
 
@@ -89,12 +100,14 @@ class RolePermissionController extends Controller
         $result = $this->roleService->findById(decode($id));
         $this->authorize('update', $result);
 
-        $permissions = $this->permissionService->getAllGroup(1);
+        $isDefaultRole = $this->roleService->isDefaultRole($result->name);
 
+        $permissions = $this->permissionService->getAllGroup(1);
         $selectedPermissions = $result->permissions->pluck('id')->toArray();
 
         return view("{$this->view}.edit", [
             'result' => $result,
+            'isDefaultRole' => $isDefaultRole,
             'permissions' => $permissions,
             'selectedPermissions' => $selectedPermissions
         ]);
@@ -104,7 +117,6 @@ class RolePermissionController extends Controller
     {
         $role = $this->roleService->findById(decode($id));
         $this->authorize('update', $role);
-
         $data = $request->validated();
 
         try {
@@ -112,9 +124,9 @@ class RolePermissionController extends Controller
 
             return redirect()->route("$this->permission_name.index")->with('success', BERHASIL_UPDATE);
         } catch (AppException $e) {
-            return responseFail($e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
         } catch (\Throwable $th) {
-            return responseFail(GAGAL_UPDATE);
+            return redirect()->back()->with('error', GAGAL_UPDATE)->withInput();
         }
     }
 

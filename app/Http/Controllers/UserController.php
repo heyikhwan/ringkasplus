@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Exceptions\AppException;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
     // TODO: Assign role to user dan tampilkan role di index
     protected $title = 'Pengguna';
@@ -20,6 +22,17 @@ class UserController extends Controller
         $this->userService = $userService;
 
         $this->setupConstruct();
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:user.index', only: ['index']),
+            new Middleware('can:user.create', only: ['create', 'store']),
+            new Middleware('can:user.edit', only: ['edit', 'update']),
+            new Middleware('can:user.destroy', only: ['destroy']),
+            new Middleware('can:user.resetPassword', only: ['resetPassword']),
+        ];
     }
 
     public function index()
