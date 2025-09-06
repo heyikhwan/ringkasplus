@@ -7,6 +7,15 @@
             <div class="text-gray-500 fw-semibold fs-6">Silahkan masuk dengan akun Anda</div>
         </div>
 
+        {{-- // TODO: ganti alert pakai component --}}
+        @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- // TODO: ubah input password pakai show password --}}
+
         <div class="fv-row mb-8">
             <input type="text" placeholder="Username" name="username" autocomplete="off"
                 class="form-control bg-transparent" />

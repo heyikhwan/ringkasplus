@@ -2,7 +2,7 @@
     <div class="col-md-3">
 
         <div class="symbol symbol-100px symbol-circle">
-            <x-form-image background="{{ getFileUrl($result->photo, asset('app/assets/media/avatars/blank.png')) }}" width="150px" height="150px" id="photo" name="photo" accept=".png,.jpg,.jpeg,.svg,.webp" />
+            <x-form-image background="{{ getFileUrl($result->photo ?? null, asset('app/assets/media/avatars/blank.png')) }}" width="150px" height="150px" id="photo" name="photo" accept=".png,.jpg,.jpeg,.svg,.webp" />
         </div>
     </div>
 

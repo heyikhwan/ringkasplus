@@ -8,6 +8,7 @@ use App\Services\UserService;
 
 class UserController extends Controller
 {
+    // TODO: Assign role to user dan tampilkan role di index
     protected $title = 'Pengguna';
     protected $view = 'app.user';
     protected $permission_name = 'user';
@@ -62,6 +63,8 @@ class UserController extends Controller
         notAjaxAbort();
 
         $result = $this->userService->findById(decode($id));
+        $this->authorize('update', $result);
+
 
         return view("{$this->view}.edit", [
             'result' => $result
@@ -70,6 +73,9 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
+        $user = $this->userService->findById(decode($id));
+        $this->authorize('update', $user);
+
         $data = $request->validated();
 
         try {
@@ -79,7 +85,6 @@ class UserController extends Controller
         } catch (AppException $e) {
             return responseFail($e->getMessage());
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return responseFail(GAGAL_UPDATE);
         }
     }
@@ -87,6 +92,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         notAjaxAbort();
+
+        $user = $this->userService->findById(decode($id));
+        $this->authorize('delete', $user);
 
         try {
             $this->userService->destroy(decode($id));
@@ -102,6 +110,9 @@ class UserController extends Controller
     public function resetPassword($id)
     {
         notAjaxAbort();
+
+        $user = $this->userService->findById(decode($id));
+        $this->authorize('resetPassword', $user);
 
         try {
             $this->userService->resetPassword(decode($id));

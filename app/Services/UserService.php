@@ -6,6 +6,7 @@ use App\Exceptions\AppException;
 use App\Repositories\UserRepository;
 use App\Traits\ActivityLogUser;
 use App\Traits\UploadFileTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,7 +15,7 @@ class UserService
     use UploadFileTrait, ActivityLogUser;
 
     protected $logName = 'User';
-    
+
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -24,7 +25,13 @@ class UserService
 
     public function datatable($permission_name)
     {
-        $query = $this->userRepository->getBaseQuery();
+        $query = $this->userRepository->getBaseQuery(['roles']);
+
+        if (!auth()->user()->hasRole('Super Admin')) {
+            $query->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'Super Admin');
+            });
+        }
 
         return DataTables::eloquent($query)
             ->addColumn('photo', function ($row) {
@@ -35,10 +42,12 @@ class UserService
             ->addColumn('action', function ($row) use ($permission_name) {
                 $primaryKey = encrypt($row->id);
 
-                // TODO: aktifkan permission
-                $items = [
-                    [
-                        // 'permission' => 'user.edit',
+                $authUser   = auth()->user();
+                $items      = [];
+
+                if ($authUser->can('update', $row)) {
+                    $items[] = [
+                        'permission' => "$permission_name.edit",
                         'title' => 'Ubah',
                         'icon' => '<i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>',
                         'attributes' => [
@@ -46,21 +55,24 @@ class UserService
                             'data-url' => route("$permission_name.edit", $primaryKey),
                             'onclick' => "actionModalData(this)"
                         ]
-                    ],
-                    [
-                        // 'permission' => 'user.reset-password',
+                    ];
+                }
+
+                if ($authUser->can('resetPassword', $row)) {
+                    $items[] = [
+                        'permission' => "$permission_name.resetPassword",
                         'title' => 'Reset Password',
                         'icon' => '<i class="ki-duotone ki-lock-2 fs-2 text-info"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>',
                         'class' => 'text-info',
                         'attributes' => [
                             'onclick' => "resetPassword('" . route("$permission_name.reset-password", $primaryKey) . "')",
                         ]
-                    ]
-                ];
+                    ];
+                }
 
-                if ($row->id != auth()->id()) {
+                if ($authUser->can('delete', $row)) {
                     $items[] = [
-                        // 'permission' => 'user.delete',
+                        'permission' => "$permission_name.destroy",
                         'title' => 'Hapus',
                         'icon' => '<i class="ki-duotone ki-trash fs-2 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>',
                         'class' => 'text-danger',
@@ -73,6 +85,10 @@ class UserService
                 return view('components.button-dropdown', [
                     'items' => $items
                 ])->render();
+            })
+            ->filterColumn('name', function ($query, $keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('username', 'like', '%' . $keyword . '%');
             })
             ->rawColumns(['action'])
             ->addIndexColumn()
@@ -100,13 +116,16 @@ class UserService
             'photo' => $photoPath
         ];
 
+        DB::beginTransaction();
         try {
             $result = $this->userRepository->create($data);
 
+            DB::commit();
             $this->activityCreate('Menambahkan user baru', $result);
 
             return $result;
         } catch (\Throwable $e) {
+            DB::rollBack();
             if ($photoPath) {
                 $this->deleteFile($photoPath);
             }
@@ -134,6 +153,8 @@ class UserService
             'photo' => $newPhoto
         ];
 
+        DB::beginTransaction();
+
         try {
             $result = $this->userRepository->update($id, $data);
 
@@ -141,10 +162,12 @@ class UserService
                 $this->deleteFile($oldPhoto);
             }
 
+            DB::commit();
             $this->activityUpdate('Mengubah data user', $result);
 
             return $result;
         } catch (\Throwable $e) {
+            DB::rollBack();
             if ($newPhoto !== $oldPhoto) {
                 $this->deleteFile($newPhoto);
             }
@@ -162,6 +185,7 @@ class UserService
 
         $photoPath = $user->photo;
 
+        DB::beginTransaction();
         try {
             $result = $this->userRepository->delete($id);
 
@@ -169,10 +193,12 @@ class UserService
                 $this->deleteFile($photoPath);
             }
 
+            DB::commit();
             $this->activityDelete('Menghapus data user', $user);
 
             return $result;
         } catch (\Throwable $e) {
+            DB::rollBack();
             throw $e;
         }
     }
@@ -184,6 +210,7 @@ class UserService
             throw new AppException(DATA_TIDAK_DITEMUKAN);
         }
 
+        DB::beginTransaction();
         try {
             $data = [
                 'password' => Hash::make('12345678')
@@ -191,10 +218,12 @@ class UserService
 
             $result = $this->userRepository->update($id, $data);
 
+            DB::commit();
             $this->activityUpdate('Reset password user', $user);
 
             return $result;
         } catch (\Throwable $e) {
+            DB::rollBack();
             throw $e;
         }
     }

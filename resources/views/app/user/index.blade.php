@@ -1,9 +1,11 @@
 <x-app-layout title="Daftar {{ $title }}">
     <div class="d-flex align-items-center justify-content-end gap-2 mb-3">
-        <button type="button" class="btn btn-primary btn-sm" data-title="Tambah {{ $title }}"
-            data-url="{{ route("$permission_name.create") }}" onclick="actionModalData(this)">
-            <i class="fas fa-user-plus"></i> Tambah {{ $title }}
-        </button>
+        @can("$permission_name.create")
+            <button type="button" class="btn btn-primary btn-sm" data-title="Tambah {{ $title }}"
+                data-url="{{ route("$permission_name.create") }}" onclick="actionModalData(this)">
+                <i class="fas fa-user-plus"></i> Tambah {{ $title }}
+            </button>
+        @endcan
     </div>
     <div class="card">
         <div class="card-body">

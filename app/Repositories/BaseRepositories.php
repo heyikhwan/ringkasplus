@@ -17,7 +17,10 @@ class BaseRepositories
         $query = $this->getBaseQuery($with);
 
         if ($callback) {
-            $query = $callback($query);
+            $result = $callback($query);
+            if ($result instanceof \Illuminate\Database\Eloquent\Builder) {
+                $query = $result;
+            }
         }
 
         return $query->find($primaryKey);
@@ -28,7 +31,10 @@ class BaseRepositories
         $query = $this->getBaseQuery($with);
 
         if ($callback) {
-            $query = $callback($query);
+            $result = $callback($query);
+            if ($result instanceof \Illuminate\Database\Eloquent\Builder) {
+                $query = $result;
+            }
         }
 
         if ($paginate) {

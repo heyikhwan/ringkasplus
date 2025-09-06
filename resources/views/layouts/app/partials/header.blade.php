@@ -127,8 +127,7 @@
                             <div class="d-flex flex-column">
                                 <div class="fw-bold d-flex align-items-center fs-5">{{ auth()->user()->name }}
                                 </div>
-                                <!-- // TODO: ambil dari role database -->
-                                <span class="fw-semibold text-muted fs-7">Super Admin</span>
+                                <span class="fw-semibold text-muted fs-7">{{ auth()->user()->roles->first()->name ?? '-' }}</span>
                             </div>
                         </div>
                     </div>
@@ -141,7 +140,6 @@
                             <div class="d-flex flex-column">
                                 <div class="fw-bold d-flex align-items-center fs-5">{{ auth()->user()->name }}
                                 </div>
-                                <!-- // TODO: ambil dari role database -->
                                 <span
                                     class="fw-semibold text-muted fs-7">{{ Str::limit(auth()->user()->email, 20) }}</span>
                             </div>
@@ -154,7 +152,7 @@
                             action="{{ route('auth.logout') }}">
                             @csrf
                             <a href="javascript:void(0)" onclick="document.getElementById('form-sign-out').submit()"
-                                class="menu-link px-5 text-danger">Sign Out</a>
+                                class="menu-link px-5 text-danger">Keluar</a>
                         </form>
                     </div>
                 </div>

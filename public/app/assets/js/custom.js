@@ -163,7 +163,7 @@ const konfirmasiSweet = (
             reverseButtons: true,
             customClass: {
                 confirmButton: "btn btn-primary",
-                cancelButton: "btn btn-ghost",
+                cancelButton: "btn btn-secondary",
             },
         }).then((result) => {
             if (result.isConfirmed) {
