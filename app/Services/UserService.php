@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
+use App\Mail\VerifyEmailMail;
 use App\Repositories\UserRepository;
 use App\Traits\ActivityLogUser;
 use App\Traits\UploadFileTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserService
@@ -263,5 +266,51 @@ class UserService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function sendVerifyEmail($userId)
+    {
+        $user = $this->findById($userId);
+
+        $url = URL::temporarySignedRoute(
+            'account.verifyEmail',
+            now()->addMinutes(60),
+            ['id' => encode($user->id), 'hash' => sha1($user->email)]
+        );
+
+        $format_email = defaultFormatBodyEmail('verify_email_mail');
+
+        $format_email = str_replace([
+            '{name}',
+            '{link_btn_action}',
+            '{expired}'
+        ], [
+            $user->name,
+            $url,
+            60
+        ], $format_email);
+
+        $data = [
+            'title' => 'Verifikasi Email',
+            'subject' => 'Verifikasi Email',
+            'body' => $format_email,
+        ];
+
+        Mail::to($user->email)->send(new VerifyEmailMail($data));
+    }
+
+    public function verifyEmail($id, $hash)
+    {
+        $user = $this->findById($id);
+
+        if (!hash_equals(sha1($user->email), $hash)) {
+            abort(403, 'Link tidak valid');
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            throw new AppException('Email sudah diverifikasi');
+        }
+
+        $user->markEmailAsVerified();
     }
 }

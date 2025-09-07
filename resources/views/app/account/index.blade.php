@@ -64,7 +64,7 @@
                                     {{ auth()->user()->email }}
 
                                     @if (empty(auth()->user()->email_verified_at))
-                                        <button type="button"
+                                        <button type="button" id="btn-verify-email"
                                             class="ms-sm-3 mt-2 mt-sm-0 btn btn-sm btn-secondary d-block d-sm-inline">
                                             <i class="fas fa-check"></i> Kirim Verifikasi Email
                                         </button>
@@ -91,4 +91,52 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            $(function() {
+                const $btn = $("#btn-verify-email");
+
+                function startCountdown(expiredAt) {
+                    const timer = setInterval(() => {
+                        const now = Date.now();
+                        const remaining = Math.floor((expiredAt - now) / 1000);
+
+                        if (remaining > 0) {
+                            $btn.prop("disabled", true).text("Tunggu " + remaining + " dtk");
+                        } else {
+                            clearInterval(timer);
+                            localStorage.removeItem("verifyEmailExpiredAt");
+                            $btn.prop("disabled", false)
+                                .html('<i class="fas fa-check"></i> Kirim Verifikasi Email');
+                        }
+                    }, 1000);
+                }
+
+                // cek countdown saat reload
+                const savedExpiredAt = localStorage.getItem("verifyEmailExpiredAt");
+                if (savedExpiredAt && Date.now() < savedExpiredAt) {
+                    startCountdown(savedExpiredAt);
+                }
+
+                $btn.on("click", function() {
+                    $btn.prop("disabled", true).html(
+                        '<i class="fas fa-spin fa-spinner align-middle"></i> Mengirim...');
+
+                    ajaxMaster("{{ route('account.sendVerifyEmail') }}", "POST", {})
+                        .then((res) => {
+                            alertSweet(res.message, "success");
+                            const expiredAt = Date.now() + 60000; // 60 detik
+                            localStorage.setItem("verifyEmailExpiredAt", expiredAt);
+                            startCountdown(expiredAt);
+                        })
+                        .catch(() => {
+                            alertSweet("Gagal mengirim email verifikasi", "error");
+                            $btn.prop("disabled", false)
+                                .html('<i class="fas fa-check"></i> Kirim Verifikasi Email');
+                        });
+                });
+            });
+        </script>
+    @endpush
 </x-app-layout>

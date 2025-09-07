@@ -23,6 +23,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('permission-application', PermissionApplicationController::class)->only(['create', 'store']);
 
     // Account
+    Route::post('account/send-verify-email', [AccountController::class, 'sendVerifyEmail'])->name('account.sendVerifyEmail');
+    Route::get('account/verify-email/{id}/{hash}', [AccountController::class, 'verifyEmail'])
+        ->middleware('signed')
+        ->name('account.verifyEmail');
+
     Route::match(['get', 'post'], 'account/change-password', [AccountController::class, 'changePassword'])->name('account.change-password');
     Route::put('account/{user}', [AccountController::class, 'update'])->name('account.update');
     Route::resource('account', AccountController::class)->only(['index', 'edit']);

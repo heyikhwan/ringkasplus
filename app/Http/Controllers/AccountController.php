@@ -97,4 +97,28 @@ class AccountController extends Controller
 
         return view("{$this->view}.change-password");
     }
+
+    public function sendVerifyEmail()
+    {
+        try {
+            $this->userService->sendVerifyEmail(auth()->user()->id);
+
+            return responseSuccess('Email verifikasi berhasil dikirim. Silahkan cek email Anda.');
+        } catch (\Throwable $e) {
+            return responseFail('Terjadi kesalahan');
+        }
+    }
+
+    public function verifyEmail($id, $hash)
+    {
+        try {
+            $this->userService->verifyEmail(decode($id), $hash);
+
+            return redirect()->route("$this->permission_name.index")->with('success', 'Email berhasil diverifikasi.');
+        } catch (AppException $e) {
+            return redirect()->route("$this->permission_name.index")->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            return redirect()->route("$this->permission_name.index")->with('error', 'Terjadi kesalahan');
+        }
+    }
 }
