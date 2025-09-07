@@ -17,7 +17,7 @@
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                             <th>Nama</th>
                             <th>Email</th>
-                            {{-- <th>Role</th> --}}
+                            <th>Peran</th>
                             <th>Status</th>
                             <th class="text-end">Aksi</th>
                         </tr>
@@ -91,6 +91,23 @@
                                 }
 
                                 return html;
+                            }
+                        },
+                        {
+                            data: "roles",
+                            name: "roles",
+                            render: function(data, type, row, meta) {
+                                if (!Array.isArray(row.roles) || row.roles.length === 0) {
+                                    return '<span class="text-muted">-</span>';
+                                }
+
+                                return row.roles.map(role => {
+                                    if (role.name === 'Super Admin') {
+                                        return `<span class="badge bg-superadmin">Super Admin</span>`;
+                                    }
+
+                                    return `<span class="badge badge-light me-1">${$('<div>').text(role.name).html()}</span>`;
+                                }).join('');
                             }
                         },
                         {

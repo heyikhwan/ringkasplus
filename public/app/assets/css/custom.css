@@ -34,3 +34,7 @@
     display: inline-flex !important;
     align-items: center !important;
 }
+
+.bg-superadmin {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+}
