@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
@@ -20,4 +21,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Permission Application
     Route::resource('permission-application', PermissionApplicationController::class)->only(['create', 'store']);
+
+    // Account
+    Route::match(['get', 'post'], 'account/change-password', [AccountController::class, 'changePassword'])->name('account.change-password');
+    Route::put('account/{user}', [AccountController::class, 'update'])->name('account.update');
+    Route::resource('account', AccountController::class)->only(['index', 'edit']);
 });

@@ -149,13 +149,19 @@ class UserService
             'name' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
-            'status' => !empty($request['status']),
+            'status' => !empty($request['status']) ? 1 : $user->status,
             'photo' => $newPhoto
         ];
+
+        // kalau email berubah, verifikasi email kembali null
+        if ($user->email != $request['email']) {
+            $data['email_verified_at'] = null;
+        }
 
         DB::beginTransaction();
 
         try {
+            // dd($data);
             $result = $this->userRepository->update($id, $data);
 
             if ($newPhoto !== $oldPhoto && $oldPhoto) {
@@ -219,7 +225,38 @@ class UserService
             $result = $this->userRepository->update($id, $data);
 
             DB::commit();
-            $this->activityUpdate('Reset password user', $user);
+            activity($this->logName)
+                ->causedBy(auth()->id())
+                ->event('updated')
+                ->log("Reset password user {$user->name}");
+
+            return $result;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function updatePassword($id, $request)
+    {
+        $user = $this->findById($id);
+        if (!$user) {
+            throw new AppException(DATA_TIDAK_DITEMUKAN);
+        }
+
+        DB::beginTransaction();
+        try {
+            $data = [
+                'password' => Hash::make($request['password'])
+            ];
+
+            $result = $this->userRepository->update($id, $data);
+
+            DB::commit();
+            activity($this->logName)
+                ->causedBy(auth()->id())
+                ->event('updated')
+                ->log("Mengubah password");
 
             return $result;
         } catch (\Throwable $e) {

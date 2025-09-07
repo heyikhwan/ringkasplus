@@ -22,7 +22,7 @@ class FormImage extends Component
     public $onlyShow;
 
     public function __construct(
-        $name,
+        $name =  null,
         $default = NULL,
         $background = '/app/assets/media/avatars/blank.png',
         $nameRemove = NULL,

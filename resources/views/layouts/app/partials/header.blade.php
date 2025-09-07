@@ -146,7 +146,7 @@
                         </div>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-5">
-                            <a href="#" class="menu-link px-5">Pengaturan Akun</a>
+                            <a href="{{ route('account.index') }}" class="menu-link px-5">Pengaturan Akun</a>
                         </div>
                         <form class="menu-item px-5" method="post" id="form-sign-out"
                             action="{{ route('auth.logout') }}">
