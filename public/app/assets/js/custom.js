@@ -338,7 +338,7 @@ const handleError = (err) => {
     }
 };
 
-const actionModalData = (btn, titleButtonDone = "Simpan") => {
+const actionModalData = (btn, titleButtonDone = "<i class='fas fa-save'></i> Simpan") => {
     let btnModal = $(btn);
     let buttonDone = false;
 

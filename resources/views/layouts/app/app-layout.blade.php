@@ -73,6 +73,22 @@
         const DATATABLE_ID = '{{ DATATABLE_ID }}';
         let IKHMODAL;
     </script>
+    <script>
+        $(document).ready(function() {
+            @if (session()->has('success'))
+                alertSweet(`{{ session('success') }}`, 'success');
+            @endif
+            @if (session()->has('warning'))
+                alertSweet(`{{ session('warning') }}`, 'warning');
+            @endif
+            @if (session()->has('info'))
+                alertSweet(`{{ session('info') }}`, 'info');
+            @endif
+            @if (session()->has('error'))
+                alertSweet(`{{ session('error') }}`, 'error');
+            @endif
+        });
+    </script>
     @stack('scripts')
 </body>
 

@@ -7,22 +7,25 @@
             <div class="text-gray-500 fw-semibold fs-6">Silahkan masuk dengan akun Anda</div>
         </div>
 
-        {{-- // TODO: ganti alert pakai component --}}
         @if (session()->has('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
+            <x-alert alertType="danger"><div class="fw-semibold">{{ session()->get('error') }}</div></x-alert>
         @endif
 
-        {{-- // TODO: ubah input password pakai show password --}}
-
-        <div class="fv-row mb-8">
-            <input type="text" placeholder="Username" name="username" autocomplete="off"
-                class="form-control bg-transparent" />
+        <div class="mb-8">
+            <x-form-input name="username" class="bg-transparent" placeholder="Username" :required=true />
         </div>
-        <div class="fv-row mb-3">
-            <input type="password" placeholder="Password" name="password" autocomplete="off"
-                class="form-control bg-transparent" />
+        <div class="mb-3">
+            <x-form-input type="password" name="password" class="bg-transparent" placeholder="Password" :required=true>
+                <x-slot name="append">
+                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                        data-kt-password-meter-control="visibility">
+                        <i class="ki-duotone ki-eye-slash fs-1"><span class="path1"></span><span
+                                class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                        <i class="ki-duotone ki-eye d-none fs-1"><span class="path1"></span><span
+                                class="path2"></span><span class="path3"></span></i>
+                    </span>
+                </x-slot>
+            </x-form-input>
         </div>
         <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
             <div></div>

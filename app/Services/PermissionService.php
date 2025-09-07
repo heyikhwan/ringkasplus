@@ -45,6 +45,8 @@ class PermissionService
             $result = $this->permissionRepository->updateStatusAndCleanRoles($activePermissionIds);
 
             DB::commit();
+
+            $this->activityUpdate('Mengubah status hak akses aplikasi', $result);
             return $result;
         } catch (\Throwable $th) {
             DB::rollBack();

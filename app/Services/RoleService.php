@@ -135,7 +135,7 @@ class RoleService
 
             DB::commit();
 
-            $this->activityUpdate('Mengubah data peran', $role);
+            $this->activityUpdate('Mengubah data peran dan hak akses', $role);
 
             return $role;
         } catch (\Throwable $e) {
@@ -154,7 +154,7 @@ class RoleService
         try {
             $result = $this->roleRepository->delete($id);
 
-            $this->activityDelete('Menghapus data user', $role);
+            $this->activityDelete('Menghapus data peran', $role);
 
             return $result;
         } catch (\Throwable $e) {

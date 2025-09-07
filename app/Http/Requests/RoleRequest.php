@@ -30,7 +30,7 @@ class RoleRequest extends FormRequest
     {
         $roleId = decode($this->role_permission);
         $role = $this->roleService->findById($roleId);
-        $isDefaultRole = $this->roleService->isDefaultRole($role->name);
+        $isDefaultRole = $role ? $this->roleService->isDefaultRole($role->name) : false;
 
         return [
             'name' => $isDefaultRole ? 'prohibited' : 'required|string|min:3|max:50|unique:roles,name,' . decode($this->role_permission),
