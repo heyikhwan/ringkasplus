@@ -23,7 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('permission-application', PermissionApplicationController::class)->only(['create', 'store']);
 
     // Account
-    Route::post('account/send-verify-email', [AccountController::class, 'sendVerifyEmail'])->name('account.sendVerifyEmail');
+    Route::post('account/send-verify-email', [AccountController::class, 'sendVerifyEmail'])->name('account.sendVerifyEmail')
+        ->middleware('throttle:3,1');
     Route::get('account/verify-email/{id}/{hash}', [AccountController::class, 'verifyEmail'])
         ->middleware('signed')
         ->name('account.verifyEmail');

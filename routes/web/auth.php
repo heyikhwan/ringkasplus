@@ -13,7 +13,8 @@ Route::middleware(['guest'])->group(function () {
 
     // forgot password
     Route::get('forgot-password', [ForgotPasswordController::class, 'index'])->name('auth.forgot-password');
-    Route::post('forgot-password', [ForgotPasswordController::class, 'store'])->name('auth.forgot-password');
+    Route::post('forgot-password', [ForgotPasswordController::class, 'store'])->name('auth.forgot-password')
+        ->middleware('throttle:3,1');
 
     // reset password
     Route::get('reset-password/{token}', [ResetPasswordController::class, 'index'])->name('auth.reset-password.index')
