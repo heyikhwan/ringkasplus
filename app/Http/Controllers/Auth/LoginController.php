@@ -32,9 +32,9 @@ class LoginController extends Controller
 
             return redirect()->route('dashboard');
         } catch (AppException $e) {
-            return back()->with('error', $e->getMessage())->withInput();
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
         } catch (Throwable $e) {
-            return back()->with('error', 'Terjadi kesalahan.')->withInput();
+            return redirect()->back()->with('error', TERJADI_KESALAHAN)->withInput();
         }
     }
 }

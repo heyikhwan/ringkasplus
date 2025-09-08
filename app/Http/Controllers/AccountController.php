@@ -105,7 +105,7 @@ class AccountController extends Controller
 
             return responseSuccess('Email verifikasi berhasil dikirim. Silahkan cek email Anda.');
         } catch (\Throwable $e) {
-            return responseFail('Terjadi kesalahan');
+            return responseFail(TERJADI_KESALAHAN);
         }
     }
 
@@ -118,7 +118,7 @@ class AccountController extends Controller
         } catch (AppException $e) {
             return redirect()->route("$this->permission_name.index")->with('error', $e->getMessage());
         } catch (\Throwable $e) {
-            return redirect()->route("$this->permission_name.index")->with('error', 'Terjadi kesalahan');
+            return redirect()->route("$this->permission_name.index")->with('error', TERJADI_KESALAHAN);
         }
     }
 }

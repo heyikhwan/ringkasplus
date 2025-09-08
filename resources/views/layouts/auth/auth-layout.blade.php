@@ -31,7 +31,7 @@
         <div class="d-flex flex-column flex-column-fluid flex-lg-row">
             <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
                 <div class="d-flex flex-center flex-lg-start flex-column">
-                    <a href="index.html" class="mb-7">
+                    <a href="javascript:;" class="mb-7">
                         <img alt="Logo" src="{{ asset('app/assets/media/logos/default-dark.svg') }}" />
                     </a>
                     <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>
@@ -39,8 +39,8 @@
             </div>
             <div
                 class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 p-lg-20">
-                <div class=" d-flex flex-column align-items-stretch flex-center ">
-                    <div class="bg-body rounded-4 w-md-600px p-20">
+                <div class="d-flex flex-column align-items-stretch flex-lg-center">
+                    <div class="bg-body rounded-4 w-350px w-md-600px p-10 p-md-20">
                         {{ $slot }}
                     </div>
                 </div>

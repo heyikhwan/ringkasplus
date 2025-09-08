@@ -9,3 +9,4 @@ const GAGAL_UPDATE = 'Data gagal diperbarui';
 const BERHASIL_HAPUS = 'Data berhasil dihapus';
 const GAGAL_HAPUS = 'Data gagal dihapus';
 const DATA_TIDAK_DITEMUKAN = 'Proses tidak dapat dilakukan karena data tidak ditemukan!';
+const TERJADI_KESALAHAN = 'Terjadi kesalahan';

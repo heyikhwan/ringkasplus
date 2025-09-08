@@ -8,7 +8,13 @@
         </div>
 
         @if (session()->has('error'))
-            <x-alert alertType="danger"><div class="fw-semibold">{{ session()->get('error') }}</div></x-alert>
+            <x-alert alertType="danger">
+                <div class="fw-semibold">{{ session()->get('error') }}</div>
+            </x-alert>
+        @elseif (session()->has('success'))
+            <x-alert alertType="success">
+                <div class="fw-semibold">{{ session()->get('success') }}</div>
+            </x-alert>
         @endif
 
         <div class="mb-8">
@@ -27,17 +33,29 @@
                 </x-slot>
             </x-form-input>
         </div>
-        <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-            <div></div>
-            {{-- // TODO: Feat. lupa password --}}
-            <a href="#" class="link-primary">Lupa Password ?</a>
+        <div class="d-flex justify-content-end gap-3 fs-base fw-semibold mb-8">
+            <a href="{{ route('auth.forgot-password') }}" class="link-primary">Lupa Password ?</a>
         </div>
         <div class="d-grid gap-3">
             <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                 <span class="indicator-label">Masuk</span>
-                <span class="indicator-progress">Tunggu sebentar...
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                <span class="indicator-progress">
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span> Tunggu sebentar...</span>
             </button>
         </div>
     </form>
+
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $('#kt_sign_in_submit').on('click', function(e) {
+                    e.preventDefault();
+                    this.setAttribute("data-kt-indicator", "on");
+                    this.disabled = true;
+
+                    $('#kt_sign_in_form').submit();
+                })
+            })
+        </script>
+    @endpush
 </x-auth-layout>
