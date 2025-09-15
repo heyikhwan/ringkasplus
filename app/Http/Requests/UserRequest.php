@@ -27,6 +27,7 @@ class UserRequest extends FormRequest
             'email' => 'nullable|string|email:rfc,dns|min:3|max:255',
             'status' => 'nullable|boolean',
             'photo' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'roles' => 'nullable|array'
         ];
 
         if ($this->method() == 'POST') {

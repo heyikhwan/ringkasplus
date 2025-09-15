@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Mail\VerifyEmailMail;
+use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use App\Traits\ActivityLogUser;
 use App\Traits\UploadFileTrait;
@@ -20,10 +21,12 @@ class UserService
     protected $logName = 'User';
 
     protected $userRepository;
+    protected $roleRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RoleRepository $roleRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function datatable($permission_name)
@@ -123,6 +126,14 @@ class UserService
         try {
             $result = $this->userRepository->create($data);
 
+            if (!empty($request['roles'])) {
+                $roles = $this->roleRepository->getAll(limit: 0, paginate: false, callback: function ($q) use ($request) {
+                    $q->whereIn('id', $request['roles']);
+                })->pluck('name')->toArray();
+
+                $result->syncRoles($roles);
+            }
+
             DB::commit();
             $this->activityCreate('Menambahkan user baru', $result);
 
@@ -164,12 +175,20 @@ class UserService
         DB::beginTransaction();
 
         try {
-            // dd($data);
             $result = $this->userRepository->update($id, $data);
 
             if ($newPhoto !== $oldPhoto && $oldPhoto) {
                 $this->deleteFile($oldPhoto);
             }
+
+            if (isset($request['roles'])) {
+                $roles = $this->roleRepository->getAll(limit: 0, paginate: false, callback: function ($q) use ($request) {
+                    $q->whereIn('id', $request['roles']);
+                })->pluck('name')->toArray();
+
+                $result->syncRoles($roles);
+            }
+
 
             DB::commit();
             $this->activityUpdate('Mengubah data user', $result);

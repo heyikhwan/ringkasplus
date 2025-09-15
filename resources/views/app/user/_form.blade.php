@@ -55,6 +55,16 @@
                 </div>
             @endif
 
+            <div class="col-12">
+                <x-form-select2 label="Peran" id="roles" name="roles[]" url="{{ route('select2.roles') }}" :required=true :options="['dropdownParent' => '#default-ikh-modal', 'key' => 'id', 'value' => 'name']" multiple>
+                    @if (isset($result) && count($result->roles) > 0)
+                        @foreach ($result->roles as $id => $name)
+                            <option value="{{ $id }}" selected>{{ $name }}</option>
+                        @endforeach
+                    @endif
+                </x-form-select2>
+            </div>
+
             <div class="col-md-6">
                 <x-form-switch label="Status" name="status" labelOn="Aktif" :checked="old('status', $result->status ?? true)" />
             </div>

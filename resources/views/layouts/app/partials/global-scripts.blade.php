@@ -48,3 +48,69 @@
         if (toggle) handleTogglePassword(toggle);
     });
 </script>
+<script>
+    function loadSelect2PerPage(selector, options = {}) {
+        const defaults = {
+            url: null,
+            key: "id",
+            value: "text",
+            objectValue: null,
+            placeholder: null,
+            hashId: false,
+            disableSearch: false,
+            allowClear: false,
+            closeOnSelect: true,
+            tags: false,
+            templateFormat: null,
+            templateSelection: null,
+            dropdownParent: null,
+        };
+
+        const opts = Object.assign({}, defaults, options);
+
+        const mapResult = opts.objectValue ?? function(obj) {
+            return {
+                id: obj[opts.key],
+                text: opts.value != null ? obj[opts.value] : obj[opts.key],
+                ...obj,
+            };
+        };
+
+        const select2Options = {
+            ajax: {
+                url: opts.url,
+                dataType: "json",
+                delay: 250,
+                data: params => ({
+                    q: params.term,
+                    page: params.page,
+                    hash_id: opts.hashId ? opts.key : null,
+                }),
+                processResults: (data, params) => ({
+                    results: $.map(data.data, mapResult),
+                    pagination: {
+                        more: ((params.page || 1) * data.per_page) < data.total,
+                    },
+                }),
+                cache: false,
+            },
+            placeholder: opts.placeholder,
+            dropdownParent: opts.dropdownParent ?
+                $(opts.dropdownParent) :
+                $(selector).parent(),
+            minimumResultsForSearch: opts.disableSearch ? -1 : 1,
+            allowClear: opts.allowClear,
+            tags: opts.tags,
+            closeOnSelect: opts.closeOnSelect,
+        };
+
+        if (opts.templateFormat) {
+            select2Options.templateResult = opts.templateFormat;
+        }
+        if (opts.templateSelection) {
+            select2Options.templateSelection = opts.templateSelection;
+        }
+
+        $(selector).select2(select2Options);
+    }
+</script>

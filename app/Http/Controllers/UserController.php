@@ -4,22 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AppException;
 use App\Http\Requests\UserRequest;
+use App\Services\RoleService;
 use App\Services\UserService;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
 class UserController extends Controller implements HasMiddleware
 {
-    // TODO: Assign role to user dan tampilkan role di index
     protected $title = 'Pengguna';
     protected $view = 'app.user';
     protected $permission_name = 'user';
 
     public $userService;
+    public $roleService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, RoleService $roleService)
     {
         $this->userService = $userService;
+        $this->roleService = $roleService;
 
         $this->setupConstruct();
     }
@@ -76,6 +78,12 @@ class UserController extends Controller implements HasMiddleware
         notAjaxAbort();
 
         $result = $this->userService->findById(decode($id));
+
+        $roleIds = $result->roles->pluck('id')->toArray();
+        $result->roles = $this->roleService->getAll(limit: 0, paginate: false, callback: function ($q) use ($roleIds) {
+            $q->whereIn('id', $roleIds);
+        })->pluck('name', 'id');
+
         $this->authorize('update', $result);
 
 

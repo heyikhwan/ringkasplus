@@ -81,6 +81,11 @@ class RoleService
         return $this->roleRepository->isDefaultRole($role);
     }
 
+    public function getAll($with = [], $limit = 10, $paginate = true, $callback = null)
+    {
+        return $this->roleRepository->getAll($with, $limit, $paginate, $callback);
+    }
+
     public function create($request)
     {
         DB::beginTransaction();
