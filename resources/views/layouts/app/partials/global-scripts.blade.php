@@ -96,8 +96,7 @@
             },
             placeholder: opts.placeholder,
             dropdownParent: opts.dropdownParent ?
-                $(opts.dropdownParent) :
-                $(selector).parent(),
+                $(opts.dropdownParent) : $(selector).parent(),
             minimumResultsForSearch: opts.disableSearch ? -1 : 1,
             allowClear: opts.allowClear,
             tags: opts.tags,
@@ -112,5 +111,18 @@
         }
 
         $(selector).select2(select2Options);
+    }
+
+    function loadSelect2(selector = '.select2') {
+        $(selector).each(function() {
+            $(this).select2({
+                placeholder: $(this).attr('placeholder') ?? 'Pilih',
+                dropdownParent: $(this).attr('dropdown-parent') ?? $(this).parent(),
+                minimumResultsForSearch: $(this).attr('disable-search') == true ? -1 : 1,
+                allowClear: $(this).attr('allow-clear') == true,
+                tags: $(this).attr('tags') ?? false,
+                closeOnSelect: $(this).attr('close-on-select') != false,
+            });
+        });
     }
 </script>
