@@ -19,6 +19,19 @@ if (!function_exists('menuUser')) {
                                 ['name' => 'article-category.destroy', 'description' => 'Hapus kategori'],
                             ]
                         ]
+                    ],
+                    [
+                        'name' => 'Tag',
+                        'url' => 'article-tag.index',
+                        'icon' => '<i class="ki-duotone ki-folder fs-2"><span class="path1"></span><span class="path2"></span></i>',
+                        'permissions' => [
+                            'Manajemen Tag Artikel' => [
+                                ['name' => 'article-tag.index', 'description' => 'Lihat daftar tag'],
+                                ['name' => 'article-tag.create', 'description' => 'Tambah tag'],
+                                ['name' => 'article-tag.edit', 'description' => 'Ubah tag'],
+                                ['name' => 'article-tag.destroy', 'description' => 'Hapus tag'],
+                            ]
+                        ]
                     ]
                 ]
             ],

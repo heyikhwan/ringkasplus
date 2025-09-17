@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ArticleCategoryController;
+use App\Http\Controllers\ArticleTagController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
@@ -14,6 +15,10 @@ Route::middleware(['auth'])->group(function () {
     // Article Category
     Route::get('article-category/datatable', [ArticleCategoryController::class, 'datatable'])->name('article-category.datatable');
     Route::resource('article-category', ArticleCategoryController::class)->except('show');
+
+    // Article Tag
+    Route::get('article-tag/datatable', [ArticleTagController::class, 'datatable'])->name('article-tag.datatable');
+    Route::resource('article-tag', ArticleTagController::class)->except('show');
 
     // User
     Route::get('user/datatable', [UserController::class, 'datatable'])->name('user.datatable');
