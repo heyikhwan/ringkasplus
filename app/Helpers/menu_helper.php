@@ -5,6 +5,24 @@ if (!function_exists('menuUser')) {
     {
         return [
             [
+                'heading' => 'Artikel',
+                'items' => [
+                    [
+                        'name' => 'Kategori',
+                        'url' => 'article-category.index',
+                        'icon' => '<i class="ki-duotone ki-folder fs-2"><span class="path1"></span><span class="path2"></span></i>',
+                        'permissions' => [
+                            'Manajemen Kategori Artikel' => [
+                                ['name' => 'article-category.index', 'description' => 'Lihat daftar kategori'],
+                                ['name' => 'article-category.create', 'description' => 'Tambah kategori'],
+                                ['name' => 'article-category.edit', 'description' => 'Ubah kategori'],
+                                ['name' => 'article-category.destroy', 'description' => 'Hapus kategori'],
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
                 'heading' => 'Manajemen Pengguna',
                 'items' => [
                     [

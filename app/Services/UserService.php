@@ -163,7 +163,7 @@ class UserService
             'name' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
-            'status' => !empty($request['status']) ? 1 : $user->status,
+            'status' => !empty($request['status']),
             'photo' => $newPhoto
         ];
 
