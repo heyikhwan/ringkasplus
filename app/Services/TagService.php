@@ -24,7 +24,7 @@ class TagService
 
     public function datatable($permission_name)
     {
-        $query = $this->tagRepository->getBaseQuery();
+        $query = $this->tagRepository->getBaseQuery(['articles']);
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
@@ -61,6 +61,9 @@ class TagService
                 return view('components.button-dropdown', [
                     'items' => $items
                 ])->render();
+            })
+            ->addColumn('usage', function ($row) {
+                return $row->articles_count ?? 0;
             })
             ->rawColumns(['action'])
             ->addIndexColumn()

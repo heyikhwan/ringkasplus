@@ -16,6 +16,8 @@
                     <thead>
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                             <th>Nama</th>
+                            <th>Slug</th>
+                            <th>Penggunaan</th>
                             <th>Status</th>
                             <th class="text-end">Aksi</th>
                         </tr>
@@ -37,6 +39,22 @@
                     columns: [{
                             data: "name",
                             name: "name",
+                            className: "fw-semibold",
+                        },
+                        {
+                            data: "slug",
+                            name: "slug",
+                            render: function(data, type, row, meta) {
+                                return `<code>${data}</code>`;
+                            },
+                        },
+                        {
+                            data: "usage",
+                            name: "usage",
+                            className: "text-center",
+                            render: function(data, type, row, meta) {
+                                return `<b>${data}</b> kali digunakan`;
+                            }
                         },
                         {
                             data: "status",
