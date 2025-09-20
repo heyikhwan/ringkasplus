@@ -9,7 +9,16 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <x-table-toolbar class="mb-5" />
+            <x-table-toolbar class="mb-5">
+                <x-form-select name="status" id="status" class="form-select-solid w-200px ps-15"
+                    placeholder="Semua Status" :options="[1 => 'Aktif', 0 => 'Tidak Aktif']" defaultValue="" :disableSearch=true :allowClear=true datatable-filter>
+                    <x-slot:prepend>
+                        <i class="ki-duotone ki-filter fs-1 position-absolute ms-6 z-index-2"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </x-slot:prepend>
+                </x-form-select>
+            </x-table-toolbar>
+
             <div class="table-responsive">
                 <table id="{{ DATATABLE_ID }}"
                     class="table align-middle table-row-dashed table-border table-row-gray-300 fs-6 gy-5">
@@ -30,7 +39,7 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                setFilterDataTable(['#dt-search'], `#${ DATATABLE_ID }`);
+                setFilterDataTable(['#dt-search', '#status'], `#${ DATATABLE_ID }`);
 
                 const datatable = initAjaxDataTable(`#${ DATATABLE_ID }`, {
                     ajax: {

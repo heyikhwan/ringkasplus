@@ -17,12 +17,16 @@
         @endif
     </div>
 
-    @if ($useSearch)
-        <div class="d-flex align-items-center position-relative">
-            <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span
-                    class="path2"></span></i>
-            <input id="dt-search" type="search" class="form-control form-control-solid w-250px ps-15"
-                placeholder="Cari" autocomplete="off" datatable-filter />
-        </div>
-    @endif
+    <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+        {{ $slot }}
+
+        @if ($useSearch)
+            <div class="d-flex align-items-center position-relative">
+                <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span
+                        class="path2"></span></i>
+                <input id="dt-search" type="search" class="form-control form-control-solid w-250px ps-15"
+                    placeholder="Cari" autocomplete="off" datatable-filter />
+            </div>
+        @endif
+    </div>
 </div>

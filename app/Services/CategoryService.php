@@ -26,6 +26,10 @@ class CategoryService
     {
         $query = $this->categoryRepository->getBaseQuery();
 
+        if (request()->filled('status')) {
+            $query->where('status', request()->status);
+        }
+
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
                 $primaryKey = encode($row->id);

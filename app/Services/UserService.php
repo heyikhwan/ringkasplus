@@ -33,6 +33,10 @@ class UserService
     {
         $query = $this->userRepository->getBaseQuery(['roles']);
 
+        if (request()->filled('status')) {
+            $query->where('status', request()->status);
+        }
+
         if (!auth()->user()->hasRole('Super Admin')) {
             $query->whereDoesntHave('roles', function ($q) {
                 $q->where('name', 'Super Admin');
