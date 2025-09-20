@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AppException;
-use App\Http\Requests\ArticleCategoryRequest;
-use App\Services\ArticleCategoryService;
+use App\Http\Requests\TagRequest;
+use App\Services\TagService;
 use Illuminate\Routing\Controllers\Middleware;
 
-class ArticleCategoryController extends Controller
+class TagController extends Controller
 {
-    protected $title = 'Kategori';
-    protected $view = 'app.article-category';
-    protected $permission_name = 'article-category';
+    protected $title = 'Tag';
+    protected $view = 'app.tag';
+    protected $permission_name = 'tag';
 
-    public $categoryService;
+    public $tagService;
 
-    public function __construct(ArticleCategoryService $categoryService)
+    public function __construct(TagService $tagService)
     {
-        $this->categoryService = $categoryService;
+        $this->tagService = $tagService;
 
         $this->setupConstruct();
     }
@@ -25,10 +25,10 @@ class ArticleCategoryController extends Controller
     public static function middleware(): array
     {
         return [
-            new Middleware('can:article-category.index', only: ['index']),
-            new Middleware('can:article-category.create', only: ['create', 'store']),
-            new Middleware('can:article-category.edit', only: ['edit', 'update']),
-            new Middleware('can:article-category.destroy', only: ['destroy']),
+            new Middleware('can:tag.index', only: ['index']),
+            new Middleware('can:tag.create', only: ['create', 'store']),
+            new Middleware('can:tag.edit', only: ['edit', 'update']),
+            new Middleware('can:tag.destroy', only: ['destroy']),
         ];
     }
 
@@ -45,7 +45,7 @@ class ArticleCategoryController extends Controller
 
     public function datatable()
     {
-        return $this->categoryService->datatable($this->permission_name);
+        return $this->tagService->datatable($this->permission_name);
     }
 
     public function create()
@@ -55,14 +55,14 @@ class ArticleCategoryController extends Controller
         return view("{$this->view}.create");
     }
 
-    public function store(ArticleCategoryRequest $request)
+    public function store(TagRequest $request)
     {
         notAjaxAbort();
 
         $data = $request->validated();
 
         try {
-            $this->categoryService->create($data);
+            $this->tagService->create($data);
 
             return responseSuccess(BERHASIL_SIMPAN);
         } catch (AppException $e) {
@@ -76,21 +76,21 @@ class ArticleCategoryController extends Controller
     {
         notAjaxAbort();
 
-        $result = $this->categoryService->findById(decode($id));
+        $result = $this->tagService->findById(decode($id));
 
         return view("{$this->view}.edit", [
             'result' => $result
         ]);
     }
 
-    public function update(ArticleCategoryRequest $request, $id)
+    public function update(TagRequest $request, $id)
     {
         notAjaxAbort();
 
         $data = $request->validated();
 
         try {
-            $this->categoryService->update(decode($id), $data);
+            $this->tagService->update(decode($id), $data);
 
             return responseSuccess(BERHASIL_UPDATE);
         } catch (AppException $e) {
@@ -105,7 +105,7 @@ class ArticleCategoryController extends Controller
         notAjaxAbort();
 
         try {
-            $this->categoryService->destroy(decode($id));
+            $this->tagService->destroy(decode($id));
 
             return responseSuccess(BERHASIL_HAPUS);
         } catch (AppException $e) {

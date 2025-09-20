@@ -3,5 +3,5 @@
         @csrf
         @method('PUT')
 
-        @include('app.article-tag._form')
+        @include('app.category._form')
     </form>

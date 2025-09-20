@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArticleTag extends Model
+class Tag extends Model
 {
     protected $fillable = [
         'slug',

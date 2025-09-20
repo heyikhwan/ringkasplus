@@ -7,24 +7,24 @@ use App\Traits\ActivityLogUser;
 use App\Exceptions\AppException;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-use App\Repositories\ArticleTagRepository;
+use App\Repositories\CategoryRepository;
 
-class ArticleTagService
+class CategoryService
 {
     use ActivityLogUser;
 
-    protected $logName = 'Tag Artikel';
+    protected $logName = 'Kategori Artikel';
 
-    protected $tagRepository;
+    protected $categoryRepository;
 
-    public function __construct(ArticleTagRepository $tagRepository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->tagRepository = $tagRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function datatable($permission_name)
     {
-        $query = $this->tagRepository->getBaseQuery();
+        $query = $this->categoryRepository->getBaseQuery();
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
@@ -69,7 +69,7 @@ class ArticleTagService
 
     public function findById($id, $with = [])
     {
-        return $this->tagRepository->findById($id, $with);
+        return $this->categoryRepository->findById($id, $with);
     }
 
     public function create($request)
@@ -79,7 +79,7 @@ class ArticleTagService
         try {
             $slug = Str::slug($request['name']);
 
-            $result = $this->tagRepository->create([
+            $result = $this->categoryRepository->create([
                 'name' => $request['name'],
                 'slug' => $slug,
                 'status' => !empty($request['status'])
@@ -87,7 +87,7 @@ class ArticleTagService
 
             DB::commit();
 
-            $this->activityCreate('Menambahkan tag artikel', $result);
+            $this->activityCreate('Menambahkan kategori artikel', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -119,7 +119,7 @@ class ArticleTagService
 
             DB::commit();
 
-            $this->activityUpdate('Mengubah data tag artikel', $result);
+            $this->activityUpdate('Mengubah data kategori artikel', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -136,9 +136,9 @@ class ArticleTagService
         }
 
         try {
-            $result = $this->tagRepository->delete($id);
+            $result = $this->categoryRepository->delete($id);
 
-            $this->activityDelete('Menghapus data tag artikel', $result);
+            $this->activityDelete('Menghapus data kategori artikel', $result);
 
             return $result;
         } catch (\Throwable $e) {

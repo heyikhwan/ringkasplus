@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ArticleCategoryController;
-use App\Http\Controllers\ArticleTagController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Article Category
-    Route::get('article-category/datatable', [ArticleCategoryController::class, 'datatable'])->name('article-category.datatable');
-    Route::resource('article-category', ArticleCategoryController::class)->except('show');
+    // Category
+    Route::get('category/datatable', [CategoryController::class, 'datatable'])->name('category.datatable');
+    Route::resource('category', CategoryController::class)->except('show');
 
-    // Article Tag
-    Route::get('article-tag/datatable', [ArticleTagController::class, 'datatable'])->name('article-tag.datatable');
-    Route::resource('article-tag', ArticleTagController::class)->except('show');
+    // Tag
+    Route::get('tag/datatable', [TagController::class, 'datatable'])->name('tag.datatable');
+    Route::resource('tag', TagController::class)->except('show');
 
     // User
     Route::get('user/datatable', [UserController::class, 'datatable'])->name('user.datatable');

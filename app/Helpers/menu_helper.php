@@ -5,31 +5,31 @@ if (!function_exists('menuUser')) {
     {
         return [
             [
-                'heading' => 'Artikel',
+                'heading' => 'Master Data',
                 'items' => [
                     [
                         'name' => 'Kategori',
-                        'url' => 'article-category.index',
+                        'url' => 'category.index',
                         'icon' => '<i class="ki-duotone ki-folder fs-2"><span class="path1"></span><span class="path2"></span></i>',
                         'permissions' => [
-                            'Manajemen Kategori Artikel' => [
-                                ['name' => 'article-category.index', 'description' => 'Lihat daftar kategori'],
-                                ['name' => 'article-category.create', 'description' => 'Tambah kategori'],
-                                ['name' => 'article-category.edit', 'description' => 'Ubah kategori'],
-                                ['name' => 'article-category.destroy', 'description' => 'Hapus kategori'],
+                            'Manajemen Kategori' => [
+                                ['name' => 'category.index', 'description' => 'Lihat daftar kategori'],
+                                ['name' => 'category.create', 'description' => 'Tambah kategori'],
+                                ['name' => 'category.edit', 'description' => 'Ubah kategori'],
+                                ['name' => 'category.destroy', 'description' => 'Hapus kategori'],
                             ]
                         ]
                     ],
                     [
                         'name' => 'Tag',
-                        'url' => 'article-tag.index',
+                        'url' => 'tag.index',
                         'icon' => '<i class="ki-duotone ki-folder fs-2"><span class="path1"></span><span class="path2"></span></i>',
                         'permissions' => [
-                            'Manajemen Tag Artikel' => [
-                                ['name' => 'article-tag.index', 'description' => 'Lihat daftar tag'],
-                                ['name' => 'article-tag.create', 'description' => 'Tambah tag'],
-                                ['name' => 'article-tag.edit', 'description' => 'Ubah tag'],
-                                ['name' => 'article-tag.destroy', 'description' => 'Hapus tag'],
+                            'Manajemen Tag' => [
+                                ['name' => 'tag.index', 'description' => 'Lihat daftar tag'],
+                                ['name' => 'tag.create', 'description' => 'Tambah tag'],
+                                ['name' => 'tag.edit', 'description' => 'Ubah tag'],
+                                ['name' => 'tag.destroy', 'description' => 'Hapus tag'],
                             ]
                         ]
                     ]

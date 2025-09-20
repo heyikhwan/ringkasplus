@@ -2,5 +2,5 @@
     onsubmit="submitModalDataTable(this); return false;">
     @csrf
 
-    @include('app.article-category._form')
+    @include('app.tag._form')
 </form>
