@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
@@ -42,4 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::match(['get', 'post'], 'account/change-password', [AccountController::class, 'changePassword'])->name('account.change-password');
     Route::put('account/{user}', [AccountController::class, 'update'])->name('account.update');
     Route::resource('account', AccountController::class)->only(['index', 'edit']);
+
+    // Activity Log
+    Route::get('activity-log/datatable', [ActivityLogController::class, 'datatable'])->name('activity-log.datatable');
+    Route::resource('activity-log', ActivityLogController::class)->only(['index', 'show']);
 });

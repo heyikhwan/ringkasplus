@@ -13,7 +13,7 @@ class TagService
 {
     use ActivityLogUser;
 
-    protected $logName = 'Tag Artikel';
+    protected $logName = 'Tag';
 
     protected $tagRepository;
 
@@ -29,7 +29,7 @@ class TagService
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
-                $primaryKey = encrypt($row->id);
+                $primaryKey = encode($row->id);
 
                 $authUser   = auth()->user();
                 $items      = [];
@@ -91,7 +91,7 @@ class TagService
 
             DB::commit();
 
-            $this->activityCreate('Menambahkan tag artikel', $result);
+            $this->activityCreate('Menambahkan tag', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -123,7 +123,7 @@ class TagService
 
             DB::commit();
 
-            $this->activityUpdate('Mengubah data tag artikel', $result);
+            $this->activityUpdate('Mengubah data tag', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -142,7 +142,7 @@ class TagService
         try {
             $result = $this->tagRepository->delete($id);
 
-            $this->activityDelete('Menghapus data tag artikel', $result);
+            $this->activityDelete('Menghapus data tag', null, $result);
 
             return $result;
         } catch (\Throwable $e) {

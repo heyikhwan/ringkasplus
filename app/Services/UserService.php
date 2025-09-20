@@ -46,7 +46,7 @@ class UserService
                     : asset('app/assets/media/avatars/blank.png');
             })
             ->addColumn('action', function ($row) use ($permission_name) {
-                $primaryKey = encrypt($row->id);
+                $primaryKey = encode($row->id);
 
                 $authUser   = auth()->user();
                 $items      = [];
@@ -222,7 +222,7 @@ class UserService
             }
 
             DB::commit();
-            $this->activityDelete('Menghapus data user', $user);
+            $this->activityDelete('Menghapus data user', null, $user);
 
             return $result;
         } catch (\Throwable $e) {

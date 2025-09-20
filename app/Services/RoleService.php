@@ -31,7 +31,7 @@ class RoleService
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
-                $primaryKey = encrypt($row->id);
+                $primaryKey = encode($row->id);
 
                 $items = [];
 
@@ -159,7 +159,7 @@ class RoleService
         try {
             $result = $this->roleRepository->delete($id);
 
-            $this->activityDelete('Menghapus data peran', $role);
+            $this->activityDelete('Menghapus data peran', null, $role);
 
             return $result;
         } catch (\Throwable $e) {

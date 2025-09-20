@@ -13,7 +13,7 @@ class CategoryService
 {
     use ActivityLogUser;
 
-    protected $logName = 'Kategori Artikel';
+    protected $logName = 'Kategori';
 
     protected $categoryRepository;
 
@@ -28,7 +28,7 @@ class CategoryService
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
-                $primaryKey = encrypt($row->id);
+                $primaryKey = encode($row->id);
 
                 $authUser   = auth()->user();
                 $items      = [];
@@ -87,7 +87,7 @@ class CategoryService
 
             DB::commit();
 
-            $this->activityCreate('Menambahkan kategori artikel', $result);
+            $this->activityCreate('Menambahkan kategori', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -119,7 +119,7 @@ class CategoryService
 
             DB::commit();
 
-            $this->activityUpdate('Mengubah data kategori artikel', $result);
+            $this->activityUpdate('Mengubah data kategori', $result);
 
             return $result;
         } catch (\Throwable $e) {
@@ -136,9 +136,9 @@ class CategoryService
         }
 
         try {
-            $result = $this->categoryRepository->delete($id);
+            $this->categoryRepository->delete($id);
 
-            $this->activityDelete('Menghapus data kategori artikel', $result);
+            $this->activityDelete('Menghapus data kategori', null, $result);
 
             return $result;
         } catch (\Throwable $e) {
