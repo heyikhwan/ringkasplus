@@ -51,6 +51,9 @@ class AppServiceProvider extends ServiceProvider
         // Morph Map
         Relation::enforceMorphMap([
             'article' => \App\Models\Article::class,
+            'user' => \App\Models\User::class,
+            'role' => \Spatie\Permission\Models\Role::class,
+            'permission' => \Spatie\Permission\Models\Permission::class,
         ]);
     }
 }
