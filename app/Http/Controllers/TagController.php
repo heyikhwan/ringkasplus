@@ -68,7 +68,6 @@ class TagController extends Controller
         } catch (AppException $e) {
             return responseFail($e->getMessage());
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return responseFail(GAGAL_SIMPAN);
         }
     }

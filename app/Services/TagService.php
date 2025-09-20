@@ -24,7 +24,8 @@ class TagService
 
     public function datatable($permission_name)
     {
-        $query = $this->tagRepository->getBaseQuery(['articles']);
+        $query = $this->tagRepository->getBaseQuery()
+            ->withCount('articles');
 
         return DataTables::eloquent($query)
             ->addColumn('action', function ($row) use ($permission_name) {
