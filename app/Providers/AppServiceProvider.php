@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Super Admin
         Gate::before(function ($user, $ability, $arguments) {
             if (! $user->hasRole('Super Admin')) {
                 return null;
@@ -45,5 +47,10 @@ class AppServiceProvider extends ServiceProvider
 
             return true;
         });
+
+        // Morph Map
+        Relation::enforceMorphMap([
+            'article' => \App\Models\Article::class,
+        ]);
     }
 }
