@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class FormRadio extends Component
 {
     public $label;
+    public $id;
     public $name;
     public $required;
     public $defaultValue;
@@ -18,6 +19,7 @@ class FormRadio extends Component
     public function __construct($label = null, $name = null, $required = false, $defaultValue = null, $help = null, $options = [])
     {
         $this->label = $label;
+        $this->id = $id ?? $name;
         $this->name = $name;
         $this->required = $required;
         $this->defaultValue = $defaultValue;

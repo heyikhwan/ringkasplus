@@ -11,6 +11,9 @@ class FormImage extends Component
      *
      * @return void
      */
+    public $id;
+    public $label;
+    public $help;
     public $default;
     public $background;
     public $name;
@@ -20,6 +23,10 @@ class FormImage extends Component
     public $height;
     public $action;
     public $onlyShow;
+    public $required;
+    public $removeUrl;
+
+    public $hasImage;
 
     public function __construct(
         $name =  null,
@@ -31,7 +38,11 @@ class FormImage extends Component
         $height = "125px",
         $action = false,
         $onlyShow = false,
-
+        $id = null,
+        $label = null,
+        $help = null,
+        $required = false,
+        $removeUrl = null
     ) {
         $this->name = $name;
         $this->default = empty($default) ? NULL : $default;
@@ -42,6 +53,15 @@ class FormImage extends Component
         $this->height = $height;
         $this->action = empty($action) ? false : $action;
         $this->onlyShow = $onlyShow;
+        $this->id = $id ?: $name;
+        $this->label = $label;
+        $this->help = $help;
+        $this->required = $required;
+        $this->removeUrl = $removeUrl;
+
+        $this->hasImage = !empty($background)
+            && !str_contains($background, '/app/assets/media/avatars/blank.png')
+            && !str_contains($background, '/app/assets/media/no-image.jpg');
     }
     /**
      * Get the view / contents that represent the component.

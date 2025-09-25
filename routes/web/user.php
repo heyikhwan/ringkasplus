@@ -5,8 +5,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,11 @@ Route::middleware(['auth'])->group(function () {
     // Tag
     Route::get('tag/datatable', [TagController::class, 'datatable'])->name('tag.datatable');
     Route::resource('tag', TagController::class)->except('show');
+
+    // Article
+    Route::get('article/datatable', [ArticleController::class, 'datatable'])->name('article.datatable');
+    Route::delete('article/remove-image/{id}/{field}', [ArticleController::class, 'removeImage'])->name('article.remove-image');
+    Route::resource('article', ArticleController::class)->except('show');
 
     // User
     Route::get('user/datatable', [UserController::class, 'datatable'])->name('user.datatable');
@@ -47,4 +54,7 @@ Route::middleware(['auth'])->group(function () {
     // Activity Log
     Route::get('activity-log/datatable', [ActivityLogController::class, 'datatable'])->name('activity-log.datatable');
     Route::resource('activity-log', ActivityLogController::class)->only(['index', 'show']);
+
+    // Upload Controller
+    Route::post('upload-editor', [UploadController::class, 'uploadEditor'])->name('upload.editor');
 });

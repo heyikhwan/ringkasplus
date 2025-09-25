@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Repositories\BaseRepositories;
 use Spatie\Activitylog\Models\Activity;
 
 class ActivityLogRepository extends BaseRepositories

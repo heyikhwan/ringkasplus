@@ -9,7 +9,7 @@
         @endisset
 
         <select id="{{ $id }}" name="{{ $name }}"
-            class="form-select select2 {{ $class }} @error($name) is-invalid @enderror"
+            class="form-select {{ $class }} @error($name) is-invalid @enderror"
             data-options='@json($options)' {{ $required ? 'required' : '' }}
             {{ $disabled ? 'disabled' : '' }} {{ $attributes }}>
             {{ $slot }}
@@ -30,6 +30,7 @@
         $(function() {
             const el = $('#{{ $id }}');
             const options = el.data('options') || {};
+
             loadSelect2PerPage(el, options);
         });
     </script>

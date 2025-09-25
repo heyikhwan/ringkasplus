@@ -1,6 +1,5 @@
 <div class="row g-5">
     <div class="col-md-3">
-
         <div class="symbol symbol-100px symbol-circle">
             <x-form-image
                 background="{{ getFileUrl($result->photo ?? null, asset('app/assets/media/avatars/blank.png')) }}"
@@ -24,7 +23,8 @@
 
             @if (!isset($result))
                 <div class="col-md-6">
-                    <x-form-input type="password" label="Password" name="password" help="Password minimal 8 karakter" :required=true>
+                    <x-form-input type="password" label="Password" name="password" help="Password minimal 8 karakter"
+                        :required=true>
                         <x-slot name="append">
                             <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
                                 data-kt-password-meter-control="visibility">
@@ -56,7 +56,8 @@
             @endif
 
             <div class="col-12">
-                <x-form-select2 label="Peran" id="roles" name="roles[]" url="{{ route('select2.roles') }}" :required=true :options="['dropdownParent' => '#default-ikh-modal', 'key' => 'id', 'value' => 'name']" multiple>
+                <x-form-select2 label="Peran" id="roles" name="roles[]" url="{{ route('select2.roles') }}"
+                    :required=true :options="['dropdownParent' => '#default-ikh-modal', 'key' => 'id', 'value' => 'name']" multiple>
                     @if (isset($result) && count($result->roles) > 0)
                         @foreach ($result->roles as $id => $name)
                             <option value="{{ $id }}" selected>{{ $name }}</option>

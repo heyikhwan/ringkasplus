@@ -98,3 +98,14 @@ if (!function_exists('randomGenAlpha')) {
         return $string;
     }
 }
+
+if (!function_exists('calculateReadTime')) {
+    function calculateReadTime($content)
+    {
+        $wordCount = str_word_count(strip_tags($content));
+        $averageReadingSpeed = 200;
+        $readTimeMinutes = ceil($wordCount / $averageReadingSpeed);
+
+        return max(1, $readTimeMinutes);
+    }
+}

@@ -80,6 +80,11 @@ class TagService
         return $this->tagRepository->findById($id, $with);
     }
 
+    public function getAll($with = [], $limit = 10, $paginate = true, $callback = null)
+    {
+        return $this->tagRepository->getAll($with, $limit, $paginate, $callback);
+    }
+
     public function create($request)
     {
         DB::beginTransaction();

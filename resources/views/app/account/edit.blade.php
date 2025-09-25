@@ -46,7 +46,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-end align-items-center gap-2">
-                            <a href="{{ route("$permission_name.index") }}" class="btn btn-secondary">
+                            <a href="{{ route("$permission_name.index") }}" class="btn btn-light">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                             <button type="submit" class="btn btn-primary">

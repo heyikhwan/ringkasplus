@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use Categorizable, Taggable;
-    
+
     protected $fillable = [
         'title',
         'slug',
@@ -25,4 +25,28 @@ class Article extends Model
         'published_at',
         'read_time',
     ];
+
+    public static function statusOptions(): array
+    {
+        return [
+            'draft' => 'Draft',
+            'published' => 'Publikasi',
+            'archived' => 'Arsip',
+        ];
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author');
+    }
+
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'categorizable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

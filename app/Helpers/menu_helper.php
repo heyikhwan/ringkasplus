@@ -36,6 +36,24 @@ if (!function_exists('menuUser')) {
                 ]
             ],
             [
+                'heading' => 'Manajemen Konten',
+                'items' => [
+                    [
+                        'name' => 'Artikel',
+                        'url' => 'article.index',
+                        'icon' => '<i class="ki-duotone ki-notepad fs-2"><span class="path1"></span><span class="path2"><span class="path3"></span><span class="path4"><span class="path5"></i>',
+                        'permissions' => [
+                            'Manajemen Kategori' => [
+                                ['name' => 'article.index', 'description' => 'Lihat daftar kategori'],
+                                ['name' => 'article.create', 'description' => 'Tambah kategori'],
+                                ['name' => 'article.edit', 'description' => 'Ubah kategori'],
+                                ['name' => 'article.destroy', 'description' => 'Hapus kategori'],
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
                 'heading' => 'Manajemen Pengguna',
                 'items' => [
                     [

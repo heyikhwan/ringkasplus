@@ -130,11 +130,15 @@ const customResetDataTable = ($table, $element = []) => {
         if (tagName === "select") {
             el.val("").trigger("change.select2").trigger("change");
         } else if (tagName === "input") {
-            el.val("");
-            if (type === "search") {
-                el.trigger("input");
+            if (el[0]._flatpickr) {
+                el[0]._flatpickr.clear();
             } else {
-                el.trigger("change");
+                el.val("");
+                if (type === "search") {
+                    el.trigger("input");
+                } else {
+                    el.trigger("change");
+                }
             }
         } else {
             el.val("").trigger("change");
@@ -583,3 +587,73 @@ window.initModalImageInputs = function (modal) {
         });
     });
 };
+
+// START char counter
+function findCharCounter($el) {
+    let $container = $el.closest('.col-12');
+    let $counter = $container.find('.char-counter').first();
+
+    if (!$counter.length) {
+        $counter = $el.nextAll('.char-counter').first();
+    }
+    return $counter;
+}
+
+function initCharCounter($el) {
+    const $counter = findCharCounter($el);
+
+
+    if (!$counter.length) return;
+
+    let $count = $counter.find('.char-count');
+    let $limit = $counter.find('.char-limit');
+
+    const attrMax = $el.attr('maxlength');
+    let limit = attrMax ? parseInt(attrMax, 10) : parseInt($limit.text(), 10) || 0;
+
+    if (!isNaN(limit) && limit > 0) {
+        $limit.text(limit);
+    } else {
+        limit = 150;
+        $limit.text(limit);
+    }
+
+    function update() {
+        let val = $el.val() || '';
+        if (limit > 0 && val.length > limit) {
+            $el.val(val.substring(0, limit));
+            val = $el.val();
+        }
+        const len = val.length;
+        $count.text(len);
+
+        if (limit > 0 && len >= limit) {
+            $count.addClass('text-danger fw-semibold');
+        } else {
+            $count.removeClass('text-danger fw-semibold');
+        }
+    }
+
+    $el.on('input paste change', function () {
+        setTimeout(update, 0);
+    });
+
+    update();
+}
+
+$('[maxlength]').each(function () {
+    initCharCounter($(this));
+});
+// END char counter
+
+function slugify(text) {
+    return text
+        .toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+}

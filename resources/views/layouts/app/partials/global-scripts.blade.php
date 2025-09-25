@@ -1,7 +1,6 @@
 <script>
     var hostUrl = "/app/assets/";
 </script>
-<script src="{{ asset('app/assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('app/assets/js/scripts.bundle.js') }}"></script>
 <script>
     var defaultThemeMode = "light";
@@ -66,13 +65,14 @@
             dropdownParent: null,
         };
 
+
         const opts = Object.assign({}, defaults, options);
 
         const mapResult = opts.objectValue ?? function(obj) {
             return {
+                ...obj,
                 id: obj[opts.key],
                 text: opts.value != null ? obj[opts.value] : obj[opts.key],
-                ...obj,
             };
         };
 

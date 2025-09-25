@@ -6,10 +6,10 @@
     <div class="d-flex align-items-center flex-wrap gap-5">
         @foreach ($options as $key => $value)
             <div class="form-check form-check-custom form-check">
-                <input class="form-check-input" type="radio" value="{{ $value }}" id="{{ $id }}"
+                <input class="form-check-input" type="radio" value="{{ $key }}" id="{{ $id }}_{{ $loop->iteration }}"
                     name="{{ $name }}" @checked($key == old($name, $defaultValue)) @required($required) />
                 <label class="form-check-label text-dark"
-                    for="{{ $id }}_{{ $loop->iteration }}">{!! $label !!}</label>
+                    for="{{ $id }}_{{ $loop->iteration }}">{!! $value !!}</label>
             </div>
         @endforeach
     </div>

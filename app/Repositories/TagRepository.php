@@ -13,4 +13,9 @@ class TagRepository extends BaseRepositories
     {
         $this->model = $model;
     }
+
+    public function firstOrCreate(array $data)
+    {
+        return $this->model->firstOrCreate($data);
+    }
 }
