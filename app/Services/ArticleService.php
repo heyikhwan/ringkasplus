@@ -83,6 +83,7 @@ class ArticleService
                     'items' => $items
                 ])->render();
             })
+            ->editColumn('id', fn($row) => encode($row->id))
             ->editColumn('status', function ($row) {
                 $status = $this->articleRepository->getStatusOptions();
                 return $status[$row->status];
@@ -308,6 +309,34 @@ class ArticleService
         }
 
         $article = $this->articleRepository->update($id, [$field => null]);
+
+        return $article;
+    }
+
+    public function toogleFeatured($id)
+    {
+        $article = $this->findById($id);
+        if (!$article) {
+            throw new AppException(DATA_TIDAK_DITEMUKAN);
+        }
+
+        $article = $this->articleRepository->update($id, ['is_featured' => !$article->is_featured]);
+
+        $this->activityUpdate('Mengubah data artikel', $article);
+
+        return $article;
+    }
+
+    public function changeStatus($id, $status)
+    {
+        $article = $this->findById($id);
+        if (!$article) {
+            throw new AppException(DATA_TIDAK_DITEMUKAN);
+        }
+
+        $article = $this->articleRepository->update($id, ['status' => $status]);
+
+        $this->activityUpdate('Mengubah data artikel', $article);
 
         return $article;
     }

@@ -158,4 +158,40 @@ class ArticleController extends Controller
             return responseError(GAGAL_HAPUS);
         }
     }
+
+    public function toogleFeatured($id)
+    {
+        try {
+            $this->articleService->toogleFeatured(decode($id));
+
+            return responseSuccess(BERHASIL_UPDATE);
+        } catch (AppException $e) {
+            return responseError($e->getMessage());
+        } catch (\Throwable $th) {
+            return responseError(GAGAL_UPDATE);
+        }
+    }
+
+    public function changeStatus($id)
+    {
+        $article = $this->articleService->findById(decode($id));
+
+        if (request()->isMethod('put')) {
+            try {
+                $status = request()->input('status');
+                $this->articleService->changeStatus(decode($id), $status);
+
+                return responseSuccess(BERHASIL_UPDATE);
+            } catch (AppException $e) {
+                return responseError($e->getMessage());
+            } catch (\Throwable $th) {
+                return responseError(GAGAL_UPDATE);
+            }
+        }
+
+        return view("{$this->view}.change-status", [
+            'result' => $article,
+            'statusOptions' => $this->articleService->getStatusOptions()
+        ]);
+    }
 }

@@ -50,6 +50,32 @@
 
     @push('scripts')
         <script>
+            const toggleFeatured = (id, is_featured) => {
+                let url = `{{ route($permission_name . '.toogle-featured', ':id') }}`;
+                url = url.replace(':id', id);
+
+                return new Promise((resolve, reject) => {
+                    konfirmasiSweet(
+                            `Yakin ${ is_featured == 1 ? 'menonaktifkan' : 'mengaktifkan' } artikel unggulan?`,
+                            'Ya!', 'Batalkan', 'warning')
+                        .then(() => {
+                            ajaxMaster(url, 'POST')
+                                .then((ress) => {
+                                    alertSweet(
+                                        ress.message,
+                                        ress.success ? "success" : "error"
+                                    ).then(() => {
+                                        resolve(ress);
+                                        reloadDataTable();
+                                    });
+                                }).catch((error) => {
+                                    handleError(error);
+                                    reject(error);
+                                })
+                        }).catch(() => {})
+                })
+            }
+
             $(document).ready(function() {
                 $('#published_at').flatpickr({
                     altInput: true
@@ -69,7 +95,7 @@
                                 let html = `<div class="d-flex align-items-center gap-3">`;
 
                                 html +=
-                                    `<i class="fas fa-star ${row.is_featured ? 'text-warning' : 'text-secondary'} " title="${row.is_featured ? 'Artikel Unggulan' : ''}"></i>`;
+                                    `<i class="fas fa-star ${row.is_featured ? 'text-warning' : 'text-secondary'} cursor-pointer" title="${row.is_featured ? 'Artikel Unggulan' : ''}" ondblclick="toggleFeatured('${row.id}', ${row.is_featured})"></i>`;
 
                                 html += `<div>`;
                                 html += `<div class="fw-semibold">${data}</div>`;
@@ -79,8 +105,6 @@
                                 html += `</div>`;
 
                                 return html;
-
-                                // TODO: Saat diklik, muncul modal untuk ubah status artikel unggulan
                             }
                         },
                         {
@@ -118,9 +142,10 @@
                                     badgeClass = 'badge-warning';
                                 }
 
-                                return `<span class="badge ${badgeClass} text-capitalize">${data}</span>`;
+                                let url = `{{ route($permission_name . '.change-status', ':id') }}`;
+                                url = url.replace(':id', row.id);
 
-                                // TODO: Saat diklik, muncul modal untuk ubah status artikel
+                                return `<span class="badge ${badgeClass} text-capitalize cursor-pointer" ondblclick="actionModalData(this)" data-title="Ubah Status" data-url="${url}">${data}</span>`;
                             }
                         },
                         {

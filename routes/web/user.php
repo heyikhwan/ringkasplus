@@ -26,6 +26,8 @@ Route::middleware(['auth'])->group(function () {
     // Article
     Route::get('article/datatable', [ArticleController::class, 'datatable'])->name('article.datatable');
     Route::delete('article/remove-image/{id}/{field}', [ArticleController::class, 'removeImage'])->name('article.remove-image');
+    Route::post('article/toogle-featured/{id}', [ArticleController::class, 'toogleFeatured'])->name('article.toogle-featured');
+    Route::match(['get', 'put'], 'article/change-status/{id}', [ArticleController::class, 'changeStatus'])->name('article.change-status');
     Route::resource('article', ArticleController::class)->except('show');
 
     // User
