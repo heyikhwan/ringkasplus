@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-body">
             <x-table-filter class="mb-8">
-                <div class="row align-items-center">
+                <div class="row g-5 align-items-center">
                     <div class="col-md-6 col-lg-3">
                         <x-form-select2 id="category" name="category" url="{{ route('select2.categories') }}"
                             :allowClear=true :options="['key' => 'id', 'value' => 'name']" placeholder="Filter Kategori" datatable-filter />
@@ -100,7 +100,7 @@
                         },
                         {
                             data: "author",
-                            name: "author.name",
+                            name: "author",
                             render: function(data, type, row) {
                                 return data ? data.name : 'N/A';
                             }
