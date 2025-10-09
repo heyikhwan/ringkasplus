@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TagService;
 use App\Exceptions\AppException;
-use App\Http\Requests\ArticleRequest;
 use App\Services\ArticleService;
 use App\Services\CategoryService;
-use App\Services\TagService;
+use App\Http\Requests\ArticleRequest;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ArticleController extends Controller
+class ArticleController extends Controller implements HasMiddleware
 {
     protected $title = 'Artikel';
     protected $view = 'app.article';

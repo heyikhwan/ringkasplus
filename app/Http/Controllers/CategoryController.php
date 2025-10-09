@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AppException;
-use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
     protected $title = 'Kategori';
     protected $view = 'app.category';

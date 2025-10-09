@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TagService;
 use App\Exceptions\AppException;
 use App\Http\Requests\TagRequest;
-use App\Services\TagService;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class TagController extends Controller
+class TagController extends Controller implements HasMiddleware
 {
     protected $title = 'Tag';
     protected $view = 'app.tag';

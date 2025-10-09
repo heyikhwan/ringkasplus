@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Services\ActivityLogService;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ActivityLogController extends Controller
+class ActivityLogController extends Controller implements HasMiddleware
 {
     protected $title = 'Log Aktivitas';
     protected $view = 'app.activity-log';
