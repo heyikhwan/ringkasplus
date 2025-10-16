@@ -3,10 +3,10 @@
 
 <head>
     <title>
-        @if ($title == 'Ringkas Plus')
+        @if ($title == getApplicationSetting('general_application_name', env('APP_NAME')))
             {{ $title }}
         @else
-            {{ $title }} - Ringkas Plus
+            {{ $title }} - {{ getApplicationSetting('general_application_name', env('APP_NAME')) }}
         @endif
     </title>
 

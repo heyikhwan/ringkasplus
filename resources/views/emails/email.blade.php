@@ -341,8 +341,8 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block powered-by">
-                                    {{-- // TODO: Ambil dari setting --}}
-                                    Powered by <a href="{{ asset('/') }}">{{ env('APP_NAME') }}</a>.
+                                    Powered by <a
+                                        href="{{ asset('/') }}">{{ getApplicationSetting('general_application_name', env('APP_NAME')) }}</a>.
                                 </td>
                             </tr>
                         </table>

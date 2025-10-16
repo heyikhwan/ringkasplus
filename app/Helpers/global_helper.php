@@ -109,3 +109,23 @@ if (!function_exists('calculateReadTime')) {
         return max(1, $readTimeMinutes);
     }
 }
+
+if (!function_exists('getApplicationSetting')) {
+    function getApplicationSetting($param = '', $fallback = '', $reinit = false)
+    {
+        static $applicationSetting;
+
+        if ($reinit) {
+            (new \Illuminate\Support\Facades\Cache)::forget('applicationSetting');
+        }
+
+        if (is_null($applicationSetting)) {
+            $applicationSetting = (new \Illuminate\Support\Facades\Cache)::remember('applicationSetting', 12 * 60, function () {
+                return (new \App\Models\ApplicationSetting())::select(['key', 'value'])->get()->pluck('value', 'key')->toArray();
+            });
+        }
+
+        if ($param == '') return $applicationSetting;
+        return array_key_exists($param, $applicationSetting) ? $applicationSetting[$param] : $fallback;
+    }
+}
