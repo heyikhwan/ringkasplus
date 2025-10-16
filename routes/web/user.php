@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ApplicationSettingController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PermissionApplicationController;
 use App\Http\Controllers\RolePermissionController;
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Permission Application
     Route::resource('permission-application', PermissionApplicationController::class)->only(['create', 'store']);
+
+    // Application Settings
+    Route::match(['get', 'put'], 'application-setting/general', [ApplicationSettingController::class, 'general'])->name('application-setting.general');
+    Route::match(['get', 'put'], 'application-setting/social-media', [ApplicationSettingController::class, 'socialMedia'])->name('application-setting.social-media');
 
     // Account
     Route::post('account/send-verify-email', [AccountController::class, 'sendVerifyEmail'])->name('account.sendVerifyEmail')

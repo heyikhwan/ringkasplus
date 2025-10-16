@@ -12,7 +12,7 @@ class BaseRepositories
             ->when(count($with), fn($query) => $query->with($with));
     }
 
-    public function findById($primaryKey, $with = [], ?callable $callback = null)
+    public function findById($id, $with = [], ?callable $callback = null)
     {
         $query = $this->getBaseQuery($with);
 
@@ -23,7 +23,7 @@ class BaseRepositories
             }
         }
 
-        return $query->find($primaryKey);
+        return $query->find($id);
     }
 
     public function getAll(array $with = [], int $limit = 10, bool $paginate = true, ?callable $callback = null)

@@ -19,7 +19,7 @@
     <div class="image-input {{ $hasImage ? '' : 'image-input-empty' }}" data-kt-image-input="true"
         id="{{ $id }}">
         <div class="image-input-wrapper w-{{ $width }} h-{{ $height }}"
-            style="background-image: url({{ $background }}); background-size: cover; background-repeat: no-repeat;">
+            style="background-image: url({{ $background }}); background-size: cover; background-repeat: no-repeat; background-position: center">
         </div>
 
         @if ($onlyShow === false)
@@ -65,7 +65,7 @@
 @enderror
 
 @if ($help)
-    <x-form-help id="{{ $id }}-help">{{ $help }}</x-form-help>
+    <x-form-help id="{{ $id }}-help">{!! $help !!}</x-form-help>
 @endif
 </div>
 

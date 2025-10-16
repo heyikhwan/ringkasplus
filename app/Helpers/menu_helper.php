@@ -89,6 +89,17 @@ if (!function_exists('menuUser')) {
                 'heading' => 'Lainnya',
                 'items' => [
                     [
+                        'name' => 'Pengaturan Aplikasi',
+                        'url' => 'application-setting.general',
+                        'icon' => '<i class="ki-duotone ki-setting-2 fs-2"><span class="path1"></span><span class="path2"></span></i>',
+                        'permissions' => [
+                            'Pengaturan Aplikasi' => [
+                                ['name' => 'application-setting.general', 'description' => 'Pengaturan umum'],
+                                ['name' => 'application-setting.social-media', 'description' => 'Pengaturan media sosial'],
+                            ]
+                        ]
+                    ],
+                    [
                         'name' => 'Hak Akses Aplikasi',
                         'url' => 'permission-application.create',
                         'icon' => '<i class="ki-duotone ki-shield fs-2"><span class="path1"></span><span class="path2"></span></i>',
