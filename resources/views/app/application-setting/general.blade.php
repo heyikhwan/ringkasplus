@@ -16,15 +16,7 @@
                         <div class="row g-5">
                             <div class="col-12">
                                 <div class="row g-5">
-                                    <div class="col-lg-6 col-xl-4">
-                                        <x-form-image label="Favicon"
-                                            background="{{ getFileUrl($result['general_favicon'] ?? null, asset('app/assets/media/no-image.jpg')) }}"
-                                            width="80px" height="80px" id="general_favicon" name="general_favicon"
-                                            accept=".ico"
-                                            help="format .ico, generate di <a href='https://realfavicongenerator.net/' target='_blank'>https://realfavicongenerator.net/</a>." />
-                                    </div>
-
-                                    <div class="col-lg-6 col-xl-4">
+                                    <div class="col-lg-6">
                                         <x-form-image label="Logo Terang"
                                             background="{{ getFileUrl($result['general_logo_light'] ?? null, asset('app/assets/media/no-image.jpg')) }}"
                                             width="140px" height="80px" id="general_logo_light"
@@ -32,12 +24,28 @@
                                             help="format PNG/JPG/JPEG/SVG/WebP, maksimal 5 MB." />
                                     </div>
 
-                                    <div class="col-lg-6 col-xl-4">
+                                    <div class="col-lg-6">
                                         <x-form-image label="Logo Gelap"
                                             background="{{ getFileUrl($result['general_logo_dark'] ?? null, asset('app/assets/media/no-image.jpg')) }}"
                                             width="140px" height="80px" id="general_logo_dark"
                                             name="general_logo_dark" accept=".png,.jpg,.jpeg,.svg,.webp"
                                             help="format PNG/JPG/JPEG/SVG/WebP, maksimal 5 MB." />
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <x-form-image label="Logo Kecil"
+                                            background="{{ getFileUrl($result['general_logo_small'] ?? null, asset('app/assets/media/no-image.jpg')) }}"
+                                            width="80px" height="80px" id="general_logo_small"
+                                            name="general_logo_small" accept=".png,.jpg,.jpeg,.svg,.webp"
+                                            help="format PNG/JPG/JPEG/SVG/WebP, maksimal 5 MB." />
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <x-form-image label="Favicon"
+                                            background="{{ getFileUrl($result['general_favicon'] ?? null, asset('app/assets/media/no-image.jpg')) }}"
+                                            width="80px" height="80px" id="general_favicon" name="general_favicon"
+                                            accept=".ico"
+                                            help="format .ico, generate di <a href='https://realfavicongenerator.net/' target='_blank'>https://realfavicongenerator.net/</a>." />
                                     </div>
                                 </div>
                             </div>

@@ -48,6 +48,14 @@ class ApplicationSettingService
                     $value = $this->uploadFile($value, 'application_setting');
                 }
 
+                if (isset($request['general_logo_small']) && is_file($value)) {
+                    $general_logo_small = $this->applicationSettingRepository->findByKey('general_logo_small')?->value;
+                    if ($general_logo_small) {
+                        $this->deleteFileByUrl($general_logo_small);
+                    }
+                    $value = $this->uploadFile($value, 'application_setting');
+                }
+
                 if (isset($request['general_favicon']) && is_file($value)) {
                     $general_favicon = $this->applicationSettingRepository->findByKey('general_favicon')?->value;
                     if ($general_favicon) {

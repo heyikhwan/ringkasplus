@@ -37,6 +37,7 @@ class ApplicationSettingController extends Controller implements HasMiddleware
             $data = request()->validate([
                 'general_logo_dark' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
                 'general_logo_light' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+                'general_logo_small' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
                 'general_favicon' => 'nullable|mimes:ico|max:5120',
                 'general_application_name' => 'required|string|min:3|max:255',
                 'general_application_slogan' => 'nullable|string|max:255',
@@ -49,10 +50,12 @@ class ApplicationSettingController extends Controller implements HasMiddleware
             ], [
                 'general_logo_dark.max' => 'ukuran file maksimal 5MB',
                 'general_logo_light.max' => 'ukuran file maksimal 5MB',
+                'general_logo_small.max' => 'ukuran file maksimal 5MB',
                 'general_favicon.max' => 'ukuran file maksimal 5MB',
             ], [
                 'general_logo_dark' => 'logo gelap',
                 'general_logo_light' => 'logo terang',
+                'general_logo_small' => 'logo kecil',
                 'general_favicon' => 'favicon',
                 'general_application_name' => 'nama aplikasi',
                 'general_application_slogan' => 'slogan aplikasi',

@@ -32,9 +32,14 @@
             <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <a href="javascript:;" class="mb-7">
-                        <img alt="Logo" src="{{ asset('app/assets/media/logos/default-dark.svg') }}" />
+                        @if (!empty(getApplicationSetting('general_logo_dark', '', true)))
+                            <img alt="Logo"
+                                src="{{ getFileUrl(getApplicationSetting('general_logo_dark', '', true)) }}"
+                                class="h-50px" />
+                        @endif
                     </a>
-                    <h2 class="text-white fw-normal m-0">Branding tools designed for your business</h2>
+                    <h2 class="text-white fw-normal m-0">{{ getApplicationSetting('general_application_description') }}
+                    </h2>
                 </div>
             </div>
             <div

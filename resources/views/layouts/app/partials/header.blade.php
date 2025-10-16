@@ -12,9 +12,12 @@
             </div>
         </div>
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-            <a href="index.html" class="d-lg-none">
-                <img alt="Logo" src="{{ asset('app/assets/media/logos/default-small.svg') }}" class="h-30px" />
-            </a>
+            @if (!empty(getApplicationSetting('general_logo_small', '', true)))
+                <a href="javascript:;" class="d-lg-none">
+                    <img alt="Logo" src="{{ getFileUrl(getApplicationSetting('general_logo_small', '', true)) }}"
+                        class="h-30px" />
+                </a>
+            @endif
         </div>
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
             <div data-kt-swapper="true" data-kt-swapper-mode="{default: 'prepend', lg: 'prepend'}"
@@ -127,7 +130,8 @@
                             <div class="d-flex flex-column">
                                 <div class="fw-bold d-flex align-items-center fs-5">{{ auth()->user()->name }}
                                 </div>
-                                <span class="fw-semibold text-muted fs-7">{{ auth()->user()->roles->first()->name ?? '-' }}</span>
+                                <span
+                                    class="fw-semibold text-muted fs-7">{{ auth()->user()->roles->first()->name ?? '-' }}</span>
                             </div>
                         </div>
                     </div>
