@@ -15,10 +15,13 @@
         <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true"
             data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
             data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+
             <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" data-kt-menu="true"
                 data-kt-menu-expand="false">
+
+                {{-- Dashboard --}}
                 <div class="menu-item">
-                    <a class="menu-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-element-11 fs-2">
                                 <span class="path1"></span>
@@ -30,20 +33,50 @@
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </div>
+
                 @foreach ($menus as $menuGroup)
                     @php
                         $visibleItems = [];
+
                         foreach ($menuGroup['items'] as $item) {
                             $viewPermission = getViewPermission($item);
+                            $canView = false;
+
                             if (!empty($item['role_only'])) {
-                                if (count(array_intersect($userRoles, $item['role_only'])) > 0) {
-                                    $visibleItems[] = $item;
-                                }
+                                $canView = count(array_intersect($userRoles, $item['role_only'])) > 0;
                             } elseif ($viewPermission) {
-                                if (auth()->user()->can($viewPermission)) {
-                                    $visibleItems[] = $item;
+                                $canView = auth()->user()->can($viewPermission);
+                            }
+
+                            $visibleChildren = [];
+                            if (!empty($item['child'])) {
+                                foreach ($item['child'] as $child) {
+                                    $childPermission = getViewPermission($child);
+                                    $canChild = false;
+
+                                    if (!empty($child['role_only'])) {
+                                        $canChild = count(array_intersect($userRoles, $child['role_only'])) > 0;
+                                    } elseif ($childPermission) {
+                                        $canChild = auth()->user()->can($childPermission);
+                                    }
+
+                                    if ($canChild) {
+                                        if (empty($child['icon'] ?? null) && !empty($item['icon'] ?? null)) {
+                                            $child['icon'] = $item['icon'];
+                                        }
+
+                                        $visibleChildren[] = $child;
+                                    }
                                 }
-                            } else {
+
+                                if (count($visibleChildren) > 0) {
+                                    $canView = true;
+                                }
+
+                                $item['child'] = $visibleChildren;
+                            }
+
+                            if ($canView || count($item['child'] ?? []) > 0) {
                                 $visibleItems[] = $item;
                             }
                         }

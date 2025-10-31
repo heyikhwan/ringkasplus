@@ -38,7 +38,7 @@ class TagService
                 $authUser   = auth()->user();
                 $items      = [];
 
-                if ($authUser->can('update', $row)) {
+                if ($authUser->can("$permission_name.edit")) {
                     $items[] = [
                         'permission' => "$permission_name.edit",
                         'title' => 'Ubah',
@@ -51,7 +51,7 @@ class TagService
                     ];
                 }
 
-                if ($authUser->can('delete', $row)) {
+                if ($authUser->can("$permission_name.destroy")) {
                     $items[] = [
                         'permission' => "$permission_name.destroy",
                         'title' => 'Hapus',

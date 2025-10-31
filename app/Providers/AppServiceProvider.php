@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Morph Map
-        Relation::enforceMorphMap([
+        Relation::morphMap([
             'article' => \App\Models\Article::class,
             'tag' => \App\Models\Tag::class,
             'category' => \App\Models\Category::class,

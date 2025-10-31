@@ -5,6 +5,8 @@ $(function () {
     })
 });
 
+const isDesktop = window.innerWidth >= 992;
+
 const setCsrf = (response) => {
     csrf = response?.csrf;
     if (csrf) {
@@ -21,7 +23,7 @@ const initAjaxDataTable = (selector, options = {}) => {
     const defaultOrder = [];
 
     const defaultOptions = {
-        responsive: true,
+        responsive: false,
         searchDelay: 5000,
         processing: true,
         serverSide: true,
@@ -67,6 +69,49 @@ const initAjaxDataTable = (selector, options = {}) => {
 
     return $(selector).DataTable(finalOptions);
 }
+
+function handleDataTableReorder(datatable, url) {
+    let isReordering = false;
+
+    datatable.on('row-reorder', async function (e, diff, edit) {
+        if (isReordering) return;
+        isReordering = true;
+
+        datatable.rowReorder.disable();
+
+        if (diff.length === 0) {
+            setTimeout(() => {
+                datatable.rowReorder.enable();
+                isReordering = false;
+            }, 800);
+            return;
+        }
+
+        const data = diff.map(change => ({
+            id: datatable.row(change.node).data().id,
+            newPosition: change.newData,
+        }));
+
+        try {
+            const response = await ajaxMaster(url, 'POST', { orders: data }, false, false);
+
+            if (response.success) {
+                toastr.success(response.message);
+            } else {
+                toastr.error('Terjadi kesalahan.');
+            }
+        } catch (error) {
+            toastr.error('Terjadi kesalahan.');
+        } finally {
+            datatable.ajax.reload(null, false);
+            setTimeout(() => {
+                datatable.rowReorder.enable();
+                isReordering = false;
+            }, 800);
+        }
+    });
+}
+
 
 const setFilterDataTable = ($element, $table) => {
     for (let index = 0; index < $element.length; index++) {

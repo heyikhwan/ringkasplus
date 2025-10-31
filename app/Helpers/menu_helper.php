@@ -166,27 +166,38 @@ if (!function_exists('isMenuActive')) {
     }
 }
 
-
 if (!function_exists('getAllPermissionsFromMenu')) {
     function getAllPermissionsFromMenu()
     {
         $menus = menuUser();
         $permissions = [];
 
-        foreach ($menus as $menuGroup) {
-            foreach ($menuGroup['items'] as $item) {
+        $extractPermissions = function ($items, $parentIcon = null) use (&$extractPermissions, &$permissions) {
+            foreach ($items as $item) {
+                $itemIcon = $item['icon'] ?? $parentIcon;
+
                 if (!empty($item['permissions'])) {
                     foreach ($item['permissions'] as $groupName => $perms) {
                         foreach ($perms as $perm) {
                             $permissions[] = [
                                 'group' => $groupName,
-                                'icon' => $item['icon'],
+                                'icon' => $itemIcon,
                                 'name' => $perm['name'],
                                 'description' => $perm['description'],
                             ];
                         }
                     }
                 }
+
+                if (!empty($item['child'])) {
+                    $extractPermissions($item['child'], $itemIcon);
+                }
+            }
+        };
+
+        foreach ($menus as $menuGroup) {
+            if (!empty($menuGroup['items'])) {
+                $extractPermissions($menuGroup['items']);
             }
         }
 

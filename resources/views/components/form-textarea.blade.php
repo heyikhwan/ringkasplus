@@ -13,6 +13,6 @@
     @enderror
 
     @if ($help)
-        <x-form-help id="{{ $id }}-help">{{ $help }}</x-form-help>
+        <x-form-help id="{{ $id }}-help">{!! $help !!}</x-form-help>
     @endif
 </div>

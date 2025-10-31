@@ -3,5 +3,5 @@
 @endphp
 
 <div {{ $attributes }}>
-    {{ $slot }}
+    {!! $slot !!}
 </div>
