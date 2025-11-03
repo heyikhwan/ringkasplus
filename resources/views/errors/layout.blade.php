@@ -14,7 +14,12 @@
     <div class="d-flex flex-column flex-root" id="kt_app_root">
         <style>
             body {
-                background-image: url('assets/media/auth/bg7.jpg');
+                background-image: url("{{ asset('app/assets/media/auth/bg4.jpg') }}");
+
+            }
+
+            [data-bs-theme="dark"] body {
+                background-image: url("{{ asset('app/assets/media/auth/bg4-dark.jpg') }}");
             }
         </style>
         <div class="d-flex flex-column flex-center flex-column-fluid">
