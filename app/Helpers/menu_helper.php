@@ -5,7 +5,7 @@ if (!function_exists('menuUser')) {
     {
         return [
             [
-                'heading' => 'Master Data',
+                'heading' => 'Manajemen Program',
                 'items' => [
                     [
                         'name' => 'Kategori',
@@ -20,53 +20,22 @@ if (!function_exists('menuUser')) {
                             ]
                         ]
                     ],
-                    [
-                        'name' => 'Tag',
-                        'url' => 'tag.index',
-                        'icon' => '<i class="ki-duotone ki-folder fs-2"><span class="path1"></span><span class="path2"></span></i>',
-                        'permissions' => [
-                            'Manajemen Tag' => [
-                                ['name' => 'tag.index', 'description' => 'Lihat daftar tag'],
-                                ['name' => 'tag.create', 'description' => 'Tambah tag'],
-                                ['name' => 'tag.edit', 'description' => 'Ubah tag'],
-                                ['name' => 'tag.destroy', 'description' => 'Hapus tag'],
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'heading' => 'Manajemen Konten',
-                'items' => [
-                    [
-                        'name' => 'Artikel',
-                        'url' => 'article.index',
-                        'icon' => '<i class="ki-duotone ki-notepad fs-2"><span class="path1"></span><span class="path2"><span class="path3"></span><span class="path4"><span class="path5"></i>',
-                        'permissions' => [
-                            'Manajemen Kategori' => [
-                                ['name' => 'article.index', 'description' => 'Lihat daftar kategori'],
-                                ['name' => 'article.create', 'description' => 'Tambah kategori'],
-                                ['name' => 'article.edit', 'description' => 'Ubah kategori'],
-                                ['name' => 'article.destroy', 'description' => 'Hapus kategori'],
-                            ]
-                        ]
-                    ]
                 ]
             ],
             [
                 'heading' => 'Manajemen Pengguna',
                 'items' => [
                     [
-                        'name' => 'Pengguna',
+                        'name' => 'Pengguna Sistem',
                         'url' => 'user.index',
                         'icon' => '<i class="ki-duotone ki-profile-user fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>',
                         'permissions' => [
-                            'Manajemen Pengguna' => [
-                                ['name' => 'user.index', 'description' => 'Lihat daftar pengguna'],
-                                ['name' => 'user.create', 'description' => 'Tambah pengguna'],
-                                ['name' => 'user.edit', 'description' => 'Ubah pengguna'],
-                                ['name' => 'user.destroy', 'description' => 'Hapus pengguna'],
-                                ['name' => 'user.resetPassword', 'description' => 'Reset password pengguna'],
+                            'Manajemen Pengguna Sistem' => [
+                                ['name' => 'user.index', 'description' => 'Lihat daftar pengguna sistem'],
+                                ['name' => 'user.create', 'description' => 'Tambah pengguna sistem'],
+                                ['name' => 'user.edit', 'description' => 'Ubah pengguna sistem'],
+                                ['name' => 'user.destroy', 'description' => 'Hapus pengguna sistem'],
+                                ['name' => 'user.resetPassword', 'description' => 'Reset password pengguna sistem'],
                             ]
                         ]
                     ],

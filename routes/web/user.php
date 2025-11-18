@@ -13,8 +13,12 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth'])->prefix('p')->group(function () {
+    // Dashboard
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Category
     Route::get('category/datatable', [CategoryController::class, 'datatable'])->name('category.datatable');
