@@ -3,11 +3,11 @@
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <a href="javascript:;" class="mx-auto">
-            @if (getApplicationSetting('general_logo_dark', '', true))
-                <img alt="Logo" src="{{ getFileUrl(getApplicationSetting('general_logo_dark', '', true)) }}"
-                    class="h-25px app-sidebar-logo-default" />
+            @if (getApplicationSetting('general_logo_light', '', true))
+                <img alt="Logo" src="{{ getFileUrl(getApplicationSetting('general_logo_light', '', true)) }}"
+                    class="h-40px app-sidebar-logo-default" />
             @else
-                <h1 class="app-sidebar-logo-default text-white">
+                <h1 class="app-sidebar-logo-default">
                     {{ getApplicationSetting('general_application_name', env('APP_NAME')) }}</h1>
             @endif
 
