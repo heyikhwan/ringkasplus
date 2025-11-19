@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-md-6">
-                <x-form-switch label="Status" name="status" labelOn="Aktif" :checked="old('status', $result->status ?? true)" />
+                <x-form-switch label="Status" id="status_active" name="status" labelOn="Aktif" :checked="old('status', $result->status ?? true)" />
             </div>
         </div>
     </div>
