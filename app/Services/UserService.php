@@ -31,8 +31,7 @@ class UserService
 
     public function datatable($permission_name)
     {
-        $query = $this->userRepository->getBaseQuery(['roles'])
-            ->where('type', 'admin');
+        $query = $this->userRepository->getBaseQuery(['roles']);
 
         if (request()->filled('is_active')) {
             $query->where('is_active', request()->is_active);
