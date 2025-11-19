@@ -31,10 +31,11 @@ class UserService
 
     public function datatable($permission_name)
     {
-        $query = $this->userRepository->getBaseQuery(['roles']);
+        $query = $this->userRepository->getBaseQuery(['roles'])
+            ->where('type', 'admin');
 
-        if (request()->filled('status')) {
-            $query->where('status', request()->status);
+        if (request()->filled('is_active')) {
+            $query->where('is_active', request()->is_active);
         }
 
         if (!auth()->user()->hasRole('Super Admin')) {
@@ -122,7 +123,8 @@ class UserService
             'username' => $request['username'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'status' => !empty($request['status']),
+            'type' => 'admin',
+            'is_active' => !empty($request['is_active']),
             'photo' => $photoPath
         ];
 
@@ -167,7 +169,7 @@ class UserService
             'name' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
-            'status' => !empty($request['status']),
+            'is_active' => !empty($request['is_active']),
             'photo' => $newPhoto
         ];
 

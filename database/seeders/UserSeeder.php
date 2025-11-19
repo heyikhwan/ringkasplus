@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
             'name' => 'Ikhwanul Akhmad. DLY',
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('password'),
+            'type' => 'admin',
         ]);
         $uper_admin->assignRole('Super Admin');
 
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
             'name' => 'Administrator',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
+            'type' => 'admin',
         ]);
         $admin->assignRole('Admin');
 

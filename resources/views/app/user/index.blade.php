@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             <x-table-toolbar class="mb-5">
-                <x-form-select name="status" id="status" class="form-select-solid w-200px ps-15"
+                <x-form-select name="is_active" id="is_active" class="form-select-solid w-200px ps-15"
                     placeholder="Semua Status" :options="[1 => 'Aktif', 0 => 'Tidak Aktif']" defaultValue="" :disableSearch=true :allowClear=true
                     datatable-filter>
                     <x-slot:prepend>
@@ -62,7 +62,7 @@
             }
 
             $(document).ready(function() {
-                setFilterDataTable(['#dt-search', '#status'], `#${ DATATABLE_ID }`);
+                setFilterDataTable(['#dt-search', '#is_active'], `#${ DATATABLE_ID }`);
 
                 const datatable = initAjaxDataTable(`#${ DATATABLE_ID }`, {
                     ajax: {
@@ -106,6 +106,8 @@
                         {
                             data: "roles",
                             name: "roles",
+                            orderable: false,
+                            searchable: false,
                             render: function(data, type, row, meta) {
                                 if (!Array.isArray(row.roles) || row.roles.length === 0) {
                                     return '<span class="text-muted">-</span>';
@@ -121,13 +123,13 @@
                             }
                         },
                         {
-                            data: "status",
-                            name: "status",
+                            data: "is_active",
+                            name: "is_active",
                             render: function(data, type, row, meta) {
-                                const status = row.status ? 'Aktif' : 'Tidak Aktif';
+                                const is_active = row.is_active ? 'Aktif' : 'Tidak Aktif';
 
                                 const html =
-                                    `<span class="badge badge-light-${row.status ? 'success' : 'danger'}">${status}</span>`;
+                                    `<span class="badge badge-light-${row.is_active ? 'success' : 'danger'}">${is_active}</span>`;
                                 return html;
                             }
                         },

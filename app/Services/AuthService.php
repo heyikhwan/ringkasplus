@@ -32,7 +32,7 @@ class AuthService
         $password = $request->input('password');
 
         $user = $this->userRepository->findByUsername($username);
-        if ($user && Hash::check($password, $user->password) && !$user->status) {
+        if ($user && Hash::check($password, $user->password) && !$user->is_active) {
             throw new AppException('Akun anda sudah dinonaktifkan. Silahkan hubungi Admin');
         }
 

@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string|min:3|max:255',
             'username' => 'required|string|min:3|max:50|alpha_dash|unique:users,username,' . decode($this->user),
             'email' => 'nullable|string|email:rfc,dns|min:3|max:255',
-            'status' => 'nullable|boolean',
+            'is_active' => 'nullable|boolean',
             'photo' => 'nullable|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'roles' => 'nullable|array'
         ];
