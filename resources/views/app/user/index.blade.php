@@ -106,6 +106,8 @@
                         {
                             data: "roles",
                             name: "roles",
+                            orderable: false,
+                            searchable: false,
                             render: function(data, type, row, meta) {
                                 if (!Array.isArray(row.roles) || row.roles.length === 0) {
                                     return '<span class="text-muted">-</span>';
